@@ -26,6 +26,27 @@
 ارزش فعلی یک Gauge به‌خودی‌خود معنادار است و معمولاً می‌توانید آن را مستقیماً در نمودارها نمایش دهید. بااین‌حال، می‌توانید عملیات‌های تجمیعی (Aggregations) یا سایر عملیات را روی آن اعمال کنید. برای مثال:
 - برای Gauge‌هایی که حاوی زمان (Timestamp) هستند، می‌توانید با استفاده از تابع `time()` در PromQL، اختلاف زمانی بین مقدار فعلی و زمان ثبت‌شده را محاسبه کنید تا مدت زمان گذشته از یک رویداد را به دست آورید.
 
+### مثال عملی
+فرض کنید در یک برنامه پایتون، میزان استفاده از حافظه (در مگابایت) را ردیابی می‌کنیم:
+```python
+from prometheus_client import Gauge
+import psutil
+
+memory_usage = Gauge('app_memory_usage_mb', 'Memory usage of the application in MB')
+
+def update_memory_usage():
+    memory = psutil.virtual_memory()
+    memory_usage.set(memory.used / 1024 / 1024)  # تبدیل به مگابایت
+```
+
+**تحلیل مثال**:
+- متریک `app_memory_usage_mb` مقدار فعلی استفاده از حافظه را نشان می‌دهد.
+- با استفاده از `set()`، مقدار حافظه به‌صورت دوره‌ای به‌روزرسانی می‌شود.
+- در PromQL، می‌توان این متریک را مستقیماً با `app_memory_usage_mb` کوئری کرد و در داشبورد Grafana نمایش داد.
+- اگر بخواهیم حداکثر استفاده از حافظه در 5 دقیقه گذشته را ببینیم، از کوئری زیر استفاده می‌کنیم:
+  ```promql
+  max_over_time(app_memory_usage_mb[5m])
+  ```
 ## 2. متریک‌های Counter
 
 ### تعریف و کاربرد
@@ -50,6 +71,30 @@
 مقدار مطلق یک Counter معمولاً اطلاعات مفیدی ارائه نمی‌دهد، زیرا این مقدار به زمان شروع Counter (که ممکن است یک سال یا یک دقیقه پیش باشد) وابسته است. به‌جای آن، باید **نرخ افزایش** Counter را در یک بازه زمانی خاص بررسی کنید. PromQL توابعی مانند `rate()`، `irate()` و `increase()` را برای این منظور ارائه می‌دهد:
 - این توابع نرخ افزایش Counter را در یک بازه زمانی مشخص محاسبه می‌کنند.
 - این توابع به‌صورت خودکار ریست‌های Counter را مدیریت می‌کنند و در صورت کاهش مقدار در بازه زمانی مشخص، آن را به‌عنوان ریست شناسایی کرده و اصلاح می‌کنند.
+
+### مثال عملی
+فرض کنید تعداد درخواست‌های HTTP را در یک سرور Flask ردیابی می‌کنیم:
+```python
+from prometheus_client import Counter
+from flask import Flask
+
+app = Flask(__name__)
+http_requests_total = Counter('http_requests_total', 'Total HTTP requests')
+
+@app.route('/')
+def index():
+    http_requests_total.inc()  # افزایش با هر درخواست
+    return 'Hello, World!'
+```
+
+**تحلیل مثال**:
+- متریک `http_requests_total` تعداد کل درخواست‌ها را شمارش می‌کند.
+- با هر درخواست، `inc()` فراخوانی می‌شود.
+- برای محاسبه نرخ درخواست‌ها در ثانیه در 5 دقیقه گذشته، از کوئری زیر استفاده می‌کنیم:
+  ```promql
+  rate(http_requests_total[5m])
+  ```
+- این کوئری نرخ متوسط درخواست‌ها در ثانیه را نشان می‌دهد و ریست‌های Counter را به‌صورت خودکار مدیریت می‌کند.
 
 ## 3. متریک‌های Summary
 
@@ -76,6 +121,38 @@
 - **اجتناب از تجمیع کوانتایل‌ها**: تجمیع کوانتایل‌ها (مانند میانگین‌گیری از صدک 90 در چندین نمونه سرویس) از نظر آماری معتبر نیست. بنابراین، Summary برای مواردی مناسب است که نیازی به تجمیع در ابعاد مختلف (مانند نمونه‌های سرویس) ندارید.
 - اگر نیاز به تجمیع دارید، باید از متریک‌های **Histogram** استفاده کنید.
 
+### مثال عملی
+ردیابی تأخیر درخواست‌ها در یک برنامه:
+```python
+from prometheus_client import Summary
+from flask import Flask
+import time
+
+app = Flask(__name__)
+request_latency = Summary('http_request_latency_seconds', 'HTTP request latency', quantiles=[0.5, 0.9, 0.99])
+
+@app.route('/process')
+def process():
+    start = time.time()
+    # شبیه‌سازی پردازش
+    time.sleep(0.1)
+    request_latency.observe(time.time() - start)
+    return 'Processed'
+```
+
+**تحلیل مثال**:
+- متریک `http_request_latency_seconds` تأخیر هر درخواست را ثبت می‌کند.
+- کوانتایل‌های 50، 90 و 99 درصد محاسبه می‌شوند.
+- برای مشاهده کوانتایل 90 درصد، می‌توان از کوئری زیر استفاده کرد:
+  ```promql
+  http_request_latency_seconds{quantile="0.9"}
+  ```
+- برای محاسبه میانگین تأخیر:
+  ```promql
+  sum(rate(http_request_latency_seconds_sum[5m])) / sum(rate(http_request_latency_seconds_count[5m]))
+  ```
+
+
 ## 4. متریک‌های Histogram
 
 ### تعریف و کاربرد
@@ -101,6 +178,36 @@
 می‌توانید هر دسته Histogram را به‌صورت جداگانه مانند یک Counter کوئری کنید. اما رایج‌ترین کاربرد، محاسبه کوانتایل‌های تقریبی با استفاده از تابع `histogram_quantile()` است. این تابع تنها تابع در PromQL است که برچسب‌های `le` را درک می‌کند. نکات مهم:
 - معمولاً باید توابع `rate()` یا `increase()` را روی دسته‌های Histogram اعمال کنید تا داده‌ها را به یک بازه زمانی مشخص محدود کنید.
 - هنگام تجمیع (مانند استفاده از عملگر `sum`)، باید برچسب `le` را حفظ کنید تا Histogram معتبر باقی بماند.
+
+### مثال عملی
+ردیابی تأخیر درخواست‌ها با Histogram:
+```python
+from prometheus_client import Histogram
+from flask import Flask
+import time
+
+app = Flask(__name__)
+request_latency = Histogram('http_request_latency_seconds', 'HTTP request latency', buckets=[0.1, 0.2, 0.5, 1.0, 2.0])
+
+@app.route('/')
+def index():
+    start = time.time()
+    # شبیه‌سازی پردازش
+    time.sleep(0.15)
+    request_latency.observe(time.time() - start)
+    return 'Request processed'
+```
+
+**تحلیل مثال**:
+- دسته‌های `[0.1, 0.2, 0.5, 1.0, 2.0]` تأخیرهای تا 0.1، 0.2، 0.5، 1 و 2 ثانیه را شمارش می‌کنند.
+- برای محاسبه کوانتایل 90 درصد در 5 دقیقه گذشته:
+  ```promql
+  histogram_quantile(0.9, sum(rate(http_request_latency_seconds_bucket[5m])))
+  ```
+- برای محاسبه میانگین تأخیر:
+  ```promql
+  sum(rate(http_request_latency_seconds_sum[5m])) / sum(rate(http_request_latency_seconds_count[5m]))
+  ```
 
 ### محاسبه میانگین تأخیر
 هم Summary و هم Histogram امکان محاسبه میانگین تأخیر درخواست‌ها را با استفاده از `_sum` و `_count` فراهم می‌کنند. این روش ارزان‌تر از تحلیل توزیع است و گاهی اوقات مفید خواهد بود.
