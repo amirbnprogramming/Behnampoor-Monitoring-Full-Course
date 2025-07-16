@@ -54,9 +54,57 @@
 
 **مثال**: تو پرومتئوس، سرور پرومتئوس این نقش رو بازی می‌کنه و از طریق فایل پیکربندی با  فرمت yaml هدف‌ها و تنظیمات scrape رو مدیریت می‌کنه.
 
+`(prometheus.yml)`
+
 ```
-فایل پیکربندی پرومتئوس :
-(prometheus.yml)
+# تنظیمات کلی پرومتئوس
+global:
+  scrape_interval: 15s # فاصله زمانی برای جمع‌آوری متریک‌ها (هر 15 ثانیه)
+  scrape_timeout: 10s  # حداکثر زمان انتظار برای پاسخ از هدف‌ها
+  evaluation_interval: 15s # فاصله زمانی برای ارزیابی قوانین (مثل هشدارها)
+
+# تنظیمات مربوط به هشداردهی
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - alertmanager:9093 # آدرس Alertmanager
+
+# قوانین هشدار (فایل‌های قوانین جداگانه)
+rule_files:
+  - "alert_rules.yml" # فایل حاوی قوانین هشدار
+
+# تنظیمات جمع‌آوری متریک‌ها (scrape configs)
+scrape_configs:
+  # مانیتورینگ خود پرومتئوس
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"] # آدرس سرور پرومتئوس
+
+  # مانیتورینگ یک سرور وب
+  - job_name: "web_server"
+    static_configs:
+      - targets:
+          - "web1.example.com:8080" # سرور وب اول
+          - "web2.example.com:8080" # سرور وب دوم
+        labels:
+          env: "production" # افزودن لیبل محیط
+
+  # مانیتورینگ یک دیتابیس MySQL با استفاده از اکسپورتر
+  - job_name: "mysql"
+    static_configs:
+      - targets: ["mysql-exporter:9104"] # آدرس اکسپورتر MySQL
+        labels:
+          env: "production"
+
+  # کشف سرویس برای محیط‌های پویا (مثل Kubernetes)
+  - job_name: "kubernetes_services"
+    kubernetes_sd_configs:
+      - role: service # کشف سرویس‌های Kubernetes
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape]
+        action: keep
+        regex: true # فقط سرویس‌هایی که این annotation رو دارن مانیتور می‌شن
 ```
 
 ---
