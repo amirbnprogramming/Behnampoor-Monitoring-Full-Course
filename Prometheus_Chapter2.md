@@ -20,28 +20,51 @@
 - پایه‌ای محکم برای یادگیری‌های بعدی، مانند PromQL، داشبوردها و هشدارها ایجاد کنیم.
 
 ---
+## راهنمای دانلود پرومتئوس برای لینوکس
 
-## ۲. دانلود پرومتئوس
+- این راهنما مراحل دانلود و آماده‌سازی پرومتئوس نسخه 3.5.0 که LTS هستش رو برای لینوکس (معماری AMD64) را به‌صورت مختصر و دقیق توضیح می‌دهد.
+- در محیط‌های تولیدی، بررسی امضای دیجیتال فایل برای امنیت ضروری است.
 
-### ۲.۱ دسترسی به فایل‌های باینری
-برای شروع، باید پرومئوس را از وب‌سایت رسمی آن ([prometheus.io](https://prometheus.io)) دانلود کنیم. در صفحه دانلود، فایل‌های tarball حاوی باینری‌های از پیش کامپایل‌شده برای سیستم‌عامل‌ها و معماری‌های رایج (مانند Linux/AMD64، macOS، Windows) ارائه شده است. اگر معماری سیستم شما در این لیست نیست، می‌توانید به صفحه انتشارات گیت‌هاب پرومتئوس مراجعه کنید که گزینه‌های بیشتری را ارائه می‌دهد.
 
-**نکته حرفه‌ای:**
-- همیشه نسخه پایدار (stable) را دانلود کنید، مگر اینکه نیاز خاصی به نسخه‌های آزمایشی داشته باشید.
-- برای محیط‌های تولیدی، بررسی امضای دیجیتال فایل‌های دانلودشده (مانند SHA256 checksum) برای اطمینان از صحت و امنیت فایل‌ها ضروری است.
+## ۱. آماده‌سازی دایرکتوری
+- ابتدا یک دایرکتوری مناسب برای دانلود و استخراج فایل‌ها بسازید یا به دایرکتوری دلخواه بروید:
+  ```bash
+  mkdir -p ~/prometheus-install
+  cd ~/prometheus-install
+  ```
 
-### ۲.۲ استخراج فایل tarball
-پس از دانلود، فایل tarball را با استفاده از دستور زیر در ترمینال استخراج می‌کنیم:
+## ۲. دسترسی به صفحه دانلود
+- به وب‌سایت رسمی پرومتئوس ([prometheus.io](https://prometheus.io)) بروید و بخش **Downloads** را انتخاب کنید.
+- یا مستقیماً به صفحه انتشارات گیت‌هاب پرومتئوس ([github.com/prometheus/prometheus/releases](https://github.com/prometheus/prometheus/releases)) مراجعه کنید.
 
-```bash
-tar -xzf prometheus-<version>.tar.gz
-cd prometheus-<version>
-```
+## ۳. انتخاب نسخه
+- لینک موردنظر برای نسخه 3.5.0 لینوکس (AMD64):
+  ```
+  https://github.com/prometheus/prometheus/releases/download/v3.5.0/prometheus-3.5.0.linux-amd64.tar.gz
+  ```
+- در صفحه انتشارات، فایل `prometheus-3.5.0.linux-amd64.tar.gz` را پیدا کنید.
 
+## ۴. دانلود فایل
+- با مرورگر روی لینک بالا کلیک کنید تا فایل tarball دانلود شود.
+- یا از ترمینال با دستور زیر یا حتی curl دانلود کنید:
+  ```bash
+  wget https://github.com/prometheus/prometheus/releases/download/v3.5.0/prometheus-3.5.0.linux-amd64.tar.gz
+  ```
+
+## 5. استخراج فایل
+- فایل دانلودشده را با دستور زیر استخراج کنید:
+  ```bash
+  tar -xzf prometheus-3.5.0.linux-amd64.tar.gz
+  cd prometheus-3.5.0.linux-amd64
+  ```
+
+## نکات مهم
 این دستور فایل را استخراج کرده و شما را به دایرکتوری مربوطه هدایت می‌کند. در این دایرکتوری، فایل‌های زیر را مشاهده خواهید کرد:
 - **prometheus**: باینری اصلی سرور پرومتئوس.
 - **promtool**: ابزاری خط فرمانی برای بررسی پیکربندی، اجرای کوئری‌ها و دیباگ.
 - **prometheus.yml**: فایل پیکربندی پیش‌فرض.
+
+
 - دایرکتوری‌های **consoles** و **console_libraries**: برای ویژگی‌های اختیاری که در این فصل به آن‌ها نیازی نداریم.
 - فایل‌های مجوز (LICENSE) و مستندات (NOTICE).
 
@@ -168,5 +191,5 @@ docker run -p 9090:9090 -v /path/to/prometheus.yml:/etc/prometheus/prometheus.ym
 
 **منابع پیشنهادی:**
 - وب‌سایت رسمی پرومتئوس: [prometheus.io](https://prometheus.io)
-- دوره‌های آموزشی PromLabs: [training.promlabs.com](https://training.promlabs.com)
 - مستندات گیت‌هاب پرومتئوس: [github.com/prometheus/prometheus](https://github.com/prometheus/prometheus)
+- نسخه های مختلف پرومتئوس :[github.com/prometheus/prometheus/releases](https://github.com/prometheus/prometheus/releases)
