@@ -43,6 +43,7 @@ demo_memory_usage_bytes
 
    این پرس‌وجو فقط سری‌های زمانی را انتخاب می‌کند که برچسب `type` آنها برابر با `buffers` باشد.
 
+---
 1. **تطبیق نابرابر (`!=`)**: سری‌هایی را برمی‌گرداند که برچسب موردنظر مقدار مشخص‌شده را نداشته باشد.
    ```promql
    demo_memory_usage_bytes{type!="free"}
@@ -51,6 +52,7 @@ demo_memory_usage_bytes
    <img width="1249" height="627" alt="Screenshot 2025-07-17 133050" src="https://github.com/user-attachments/assets/6e9cbd81-0ef6-4b17-bcec-57e16a3bf8cf" />
 
 
+---
 2. **تطبیق با عبارت منظم (`=~`)**: سری‌هایی را انتخاب می‌کند که مقدار برچسب آنها با یک عبارت منظم مطابقت داشته باشد.
    ```promql
    demo_memory_usage_bytes{type=~"buffers|cached"}
@@ -59,6 +61,7 @@ demo_memory_usage_bytes
    <img width="1250" height="596" alt="Screenshot 2025-07-17 133136" src="https://github.com/user-attachments/assets/2b75c6ec-7ea6-4f9d-812b-391805e1b973" />
 
 
+---
 3. **تطبیق منفی با عبارت منظم (`!~`)**: سری‌هایی را انتخاب می‌کند که مقدار برچسب آنها با عبارت منظم مطابقت نداشته باشد.
    ```promql
    demo_memory_usage_bytes{type!~"buffers|cached"}
@@ -68,6 +71,7 @@ demo_memory_usage_bytes
 
 
 > **نکته**: عبارات منظم در PromQL به‌صورت پیش‌فرض به تطبیق کامل رشته نیاز دارند. برای تطبیق بخشی از مقدار برچسب، باید از کاراکترهای `.` و `*` در ابتدا و انتهای عبارت منظم استفاده کنید (مثال: `.*value.*`).
+---
 
 #### ترکیب تطبیق‌دهنده‌ها
 می‌توانید چندین تطبیق‌دهنده را با کاما ترکیب کنید. در این صورت، همه شرایط باید برای بازگشت یک سری زمانی برقرار باشند.
