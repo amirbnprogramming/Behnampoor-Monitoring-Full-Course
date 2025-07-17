@@ -38,22 +38,34 @@ demo_memory_usage_bytes
    ```promql
    demo_memory_usage_bytes{type="buffers"}
    ```
+
+<img width="1247" height="445" alt="Screenshot 2025-07-17 133036" src="https://github.com/user-attachments/assets/8817fd39-cde4-418e-b2f7-1737947eee6e" />
+
    این پرس‌وجو فقط سری‌های زمانی را انتخاب می‌کند که برچسب `type` آنها برابر با `buffers` باشد.
 
-2. **تطبیق نابرابر (`!=`)**: سری‌هایی را برمی‌گرداند که برچسب موردنظر مقدار مشخص‌شده را نداشته باشد.
+1. **تطبیق نابرابر (`!=`)**: سری‌هایی را برمی‌گرداند که برچسب موردنظر مقدار مشخص‌شده را نداشته باشد.
    ```promql
    demo_memory_usage_bytes{type!="free"}
    ```
 
-3. **تطبیق با عبارت منظم (`=~`)**: سری‌هایی را انتخاب می‌کند که مقدار برچسب آنها با یک عبارت منظم مطابقت داشته باشد.
+   <img width="1249" height="627" alt="Screenshot 2025-07-17 133050" src="https://github.com/user-attachments/assets/6e9cbd81-0ef6-4b17-bcec-57e16a3bf8cf" />
+
+
+2. **تطبیق با عبارت منظم (`=~`)**: سری‌هایی را انتخاب می‌کند که مقدار برچسب آنها با یک عبارت منظم مطابقت داشته باشد.
    ```promql
    demo_memory_usage_bytes{type=~"buffers|cached"}
    ```
 
-4. **تطبیق منفی با عبارت منظم (`!~`)**: سری‌هایی را انتخاب می‌کند که مقدار برچسب آنها با عبارت منظم مطابقت نداشته باشد.
+   <img width="1250" height="596" alt="Screenshot 2025-07-17 133136" src="https://github.com/user-attachments/assets/2b75c6ec-7ea6-4f9d-812b-391805e1b973" />
+
+
+3. **تطبیق منفی با عبارت منظم (`!~`)**: سری‌هایی را انتخاب می‌کند که مقدار برچسب آنها با عبارت منظم مطابقت نداشته باشد.
    ```promql
    demo_memory_usage_bytes{type!~"buffers|cached"}
    ```
+
+   <img width="1252" height="590" alt="Screenshot 2025-07-17 133150" src="https://github.com/user-attachments/assets/aa620157-cebd-43e1-b769-299a7a3da610" />
+
 
 > **نکته**: عبارات منظم در PromQL به‌صورت پیش‌فرض به تطبیق کامل رشته نیاز دارند. برای تطبیق بخشی از مقدار برچسب، باید از کاراکترهای `.` و `*` در ابتدا و انتهای عبارت منظم استفاده کنید (مثال: `.*value.*`).
 
