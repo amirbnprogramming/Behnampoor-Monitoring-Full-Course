@@ -28,16 +28,17 @@
 تابع `rate` نرخ افزایش یک کانتر را به‌صورت **میانگین در ثانیه** (per-second average) در یک بازه زمانی مشخص (range window) محاسبه می‌کند.
 این تابع تمام نمونه‌های (samples) موجود در بازه زمانی ورودی را در نظر می‌گیرد و یک خروجی صاف و هموار ارائه می‌دهد.
 
-### میاد مجموع افزایش هارا تقسیم میکند بر    >>>>   زمان بازه مدنظر
+### میاد مجموع افزایش هارا تقسیم میکند بر    زمان بازه مدنظر
+rate = (increase)/(Time)
 
 #### اگر هم counter reset در بازه مدنظر باشد به شکل زیر آنهارا احیا میکند و بعد نرخ را محاسبه میکند.
 
 
-<img width="769" height="441" alt="Screenshot 2025-07-18 104102" src="https://github.com/user-attachments/assets/10de5fe2-f5b9-4a4e-93b8-7cf50cd78144" />
+<img width="2084" height="1250" alt="Screenshot 2025-07-18 104102" src="https://github.com/user-attachments/assets/10de5fe2-f5b9-4a4e-93b8-7cf50cd78144" />
 
-<img width="752" height="392" alt="Screenshot 2025-07-18 104244" src="https://github.com/user-attachments/assets/c2f52d58-1490-418a-889a-4f46a2e06b55" />
+<img width="2084" height="1250" alt="Screenshot 2025-07-18 104244" src="https://github.com/user-attachments/assets/c2f52d58-1490-418a-889a-4f46a2e06b55" />
 
-<img width="762" height="418" alt="Screenshot 2025-07-18 104155" src="https://github.com/user-attachments/assets/7fc833e1-2cc4-4aa9-b3bb-11891a5ac544" />
+<img width="2084" height="1250" alt="Screenshot 2025-07-18 104155" src="https://github.com/user-attachments/assets/7fc833e1-2cc4-4aa9-b3bb-11891a5ac544" />
 
 <img width="2084" height="1250" alt="Screenshot 2025-07-18 104402" src="https://github.com/user-attachments/assets/78d3293e-83e7-4811-9709-043daae0344b" />
 
