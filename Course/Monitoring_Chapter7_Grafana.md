@@ -121,13 +121,22 @@ sudo systemctl status grafana-server
 
 **مراحل:**
 1. در گرافانا، به منوی **Connections > Data Sources** بروید و **Add data source** را انتخاب کنید.
+
+<img width="289" height="405" alt="image" src="https://github.com/user-attachments/assets/dd9b6178-666e-400e-9c9b-82cfdaf93642" />
+
 2. نوع منبع داده را **Prometheus** انتخاب کنید.
+<img width="954" height="610" alt="image" src="https://github.com/user-attachments/assets/52aeb516-e078-43c6-a30a-a11d199d26c6" />
+
 3. تنظیمات زیر را وارد کنید:
    - **قسمت Name**: نامی مثل `Prometheus-Demo`.
    - **قسمت URL**: آدرس سرور پرومتئوس (مثلاً `http://demo.promlabs.com:9090` برای سرور دموی PromLabs).
    - **قسمت Default**: اگر اولین منبع داده است، تیک گزینه Default را بزنید.
 
+<img width="1090" height="1002" alt="image" src="https://github.com/user-attachments/assets/b27c2a77-ba66-4b75-86e3-1c96c28b6c6a" />
+
 4. روی **Save & Test** کلیک کنید تا اتصال بررسی شود.
+
+<img width="1048" height="209" alt="image" src="https://github.com/user-attachments/assets/936cc7cf-2255-4e30-993f-9025e368c71b" />
 
 **نکته:** اگر سرور پرومتئوس شما نیاز به احراز هویت دارد، تنظیمات HTTP و Authentication را پیکربندی کنید.
 
