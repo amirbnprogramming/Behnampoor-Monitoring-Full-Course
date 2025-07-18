@@ -253,7 +253,7 @@ sudo systemctl status grafana-server
 <img width="2486" height="1186" alt="image" src="https://github.com/user-attachments/assets/525083dd-e23c-4c1e-8257-f2c49f8412f8" />
 
 
-
+---
 ### در ادامه، سه نوع پنل را ایجاد می‌کنیم:
   - **نمودار سری زمانی**
   - **گیج**
