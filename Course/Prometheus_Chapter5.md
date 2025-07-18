@@ -32,6 +32,7 @@
 
 > اگر هم counter reset در بازه مدنظر باشد به شکل زیر آنهارا احیا میکند و بعد نرخ را محاسبه میکند.
 
+
 <img width="769" height="441" alt="Screenshot 2025-07-18 104102" src="https://github.com/user-attachments/assets/10de5fe2-f5b9-4a4e-93b8-7cf50cd78144" />
 
 <img width="752" height="392" alt="Screenshot 2025-07-18 104244" src="https://github.com/user-attachments/assets/c2f52d58-1490-418a-889a-4f46a2e06b55" />
