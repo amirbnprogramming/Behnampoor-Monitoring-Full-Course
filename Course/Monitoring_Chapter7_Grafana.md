@@ -275,6 +275,18 @@ sudo systemctl status grafana-server
 
 <img width="1726" height="1175" alt="image" src="https://github.com/user-attachments/assets/3e3a40a6-cfa0-4d11-8cda-cdd2b64d56cc" />
 
+5. یا از طریق وارد کردن مستقیم کوئری در قسمت code:
+
+```promql
+histogram_quantile(0.95, sum(rate(demo_api_request_duration_seconds_bucket[5m])) by (le, path, method))
+```
+- این کوئری صدک ۹۵ (95th percentile) تأخیر درخواست‌های HTTP را برای هر مسیر (path) و متد (method) محاسبه می‌کند.
+
+
+---
+
+### لجند ، یک مفهوم بسیار مهم
+
 > مفهوم لجند :در گرافانا (Grafana)، لجند (Legend) بخشی از رابط کاربری نمودار است که توضیحات یا برچسب‌هایی را برای داده‌های نمایش‌داده‌شده در نمودار ارائه می‌دهد. لجند به کاربران کمک می‌کند تا بفهمند هر خط، میله یا نقطه در نمودار به چه متریکی یا داده‌ای اشاره دارد. به عبارت دیگر، لجند یک راهنما برای تفسیر بصری داده‌ها در نمودار است. لجند در گرافانا معمولاً در زیر، کنار یا بالای نمودار نمایش داده می‌شود و اطلاعاتی مثل نام سری‌های داده (Series)، مقادیر عددی (مانند مقدار فعلی، میانگین، حداقل، حداکثر) یا رنگ مرتبط با هر سری داده را نشان می‌دهد. این بخش به‌ویژه زمانی مفید است که چندین متریک یا سری داده در یک نمودار نمایش داده می‌شود.
 
 > ویژگی‌های اصلی لجند:
@@ -285,23 +297,31 @@ sudo systemctl status grafana-server
 شخصی‌سازی: می‌توانید مکان لجند (مثلاً پایین، راست، چپ) و نوع اطلاعاتی که نمایش می‌دهد را تنظیم کنید.
 > <img width="1708" height="1177" alt="image" src="https://github.com/user-attachments/assets/76b436c1-ad96-40c7-bb9e-ad50f9262e59" />
 
-
-یا از طریق وارد کردن مستقیم کوئری در قسمت code:
-
-```promql
-histogram_quantile(0.95, sum(rate(demo_api_request_duration_seconds_bucket[5m])) by (le, path, method))
-```
-- این کوئری صدک ۹۵ (95th percentile) تأخیر درخواست‌های HTTP را برای هر مسیر (path) و متد (method) محاسبه می‌کند.
+---
 
 
-4. **تنظیمات پنل:**
+4. **تنظیمات پنل Panel Options:**
    - **عنوان:** «تأخیر صدک ۹۵ درخواست‌ها»
    - **واحد:** در بخش Panel Options، واحد را به **Seconds** تنظیم کنید تا گرافانا مقادیر را به‌درستی (مثلاً در میلی‌ثانیه) نمایش دهد.
    - **فرمت لجند:** برای خواناتر شدن لجند، به بخش Query Options بروید و فرمت دلخواه را وارد کنید:
 ```
 {{path}} - {{method}}
 ```
-     این کار لجند را به‌صورت `path-method` (مثلاً `/api/get - GET`) نمایش می‌دهد.
+     این کار لجند را به‌صورت زیر  نمایش می‌دهد.
+     (مثلاً `/api/get - GET`)
+
+
+---
+### تغییر واحد ها در لجند
+
+<img width="322" height="837" alt="Screenshot 2025-07-18 141001" src="https://github.com/user-attachments/assets/46292925-b481-444e-a4b8-0ea9a0f6781d" />
+<img width="311" height="449" alt="Screenshot 2025-07-18 141044" src="https://github.com/user-attachments/assets/332b80fc-9213-407b-bdb0-31c1060b2207" />
+<img width="1335" height="577" alt="Screenshot 2025-07-18 141152" src="https://github.com/user-attachments/assets/99aae6c4-b713-4f10-8ea7-a5664980378b" />
+
+---
+
+
+
 5. روی **Apply** کلیک کنید تا پنل ذخیره شود.
 
 **مثال عملی:**
