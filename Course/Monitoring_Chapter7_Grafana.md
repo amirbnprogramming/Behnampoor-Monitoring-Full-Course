@@ -311,8 +311,8 @@ histogram_quantile(0.95, sum(rate(demo_api_request_duration_seconds_bucket[5m]))
 > رنگ‌بندی: هر سری داده با یک رنگ خاص در نمودار و لجند نمایش داده می‌شود تا تمایز بین داده‌ها راحت‌تر شود.
 > شخصی‌سازی: می‌توانید مکان لجند (مثلاً پایین، راست، چپ) و نوع اطلاعاتی که نمایش می‌دهد را تنظیم کنید.
 > <img width="1708" height="1177" alt="image" src="https://github.com/user-attachments/assets/76b436c1-ad96-40c7-bb9e-ad50f9262e59" />
-> <img width="322" height="837" alt="Screenshot 2025-07-18 141001" src="https://github.com/user-attachments/assets/46292925-b481-444e-a4b8-0ea9a0f6781d" />
-> <img width="311" height="449" alt="Screenshot 2025-07-18 141044" src="https://github.com/user-attachments/assets/332b80fc-9213-407b-bdb0-31c1060b2207" />
+<img width="1705" height="1000" alt="Screenshot 2025-07-18 144038" src="https://github.com/user-attachments/assets/e5229307-3e5e-4ec5-93ee-f5ae6046f8d1" />
+<img width="1703" height="897" alt="Screenshot 2025-07-18 144103" src="https://github.com/user-attachments/assets/7a651a56-5c44-4902-8636-ad11ca5fccaa" />
 > <img width="1335" height="577" alt="Screenshot 2025-07-18 141152" src="https://github.com/user-attachments/assets/99aae6c4-b713-4f10-8ea7-a5664980378b" />
 
 
