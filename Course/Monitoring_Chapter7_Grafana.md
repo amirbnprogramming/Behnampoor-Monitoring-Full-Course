@@ -191,12 +191,20 @@ sudo systemctl status grafana-server
 #### **روش ۱: وارد کردن با ID داشبورد**
 1. به رابط کاربری گرافانا (مثلاً `http://localhost:3000`) بروید و وارد شوید.
 2. از منوی سمت چپ، روی آیکون **Dashboards** (نماد چهار مربع) کلیک کنید.
-3. گزینه **Import** را انتخاب کنید.
+3. با کلیلک بر روی **New**  گزینه ی **import** را انتخاب کنید.
+   
+<img width="1375" height="748" alt="image" src="https://github.com/user-attachments/assets/e80533b5-04ac-4965-ba63-58cc2917d5e0" />
+<img width="1075" height="563" alt="image" src="https://github.com/user-attachments/assets/14d7902b-476e-4c80-b3e4-eee72acccb83" />
+
+
 4. در فیلد **Import via grafana.com**، **ID داشبورد** (مثلاً `1860`) را وارد کنید.
 5. روی **Load** کلیک کنید.
+<img width="694" height="752" alt="image" src="https://github.com/user-attachments/assets/cff29939-1971-4416-8d3b-620cede731f7" />
+
 6. منبع داده (Data Source) مناسب را از لیست کشویی انتخاب کنید (مثلاً Prometheus).
 7. در صورت نیاز، تنظیمات دیگر (مانند نام داشبورد یا متغیرها) را سفارشی کنید.
 8. روی **Import** کلیک کنید تا داشبورد اضافه شود.
+<img width="692" height="726" alt="image" src="https://github.com/user-attachments/assets/f3c80ab8-fd51-470e-9598-2c3fdc9a5334" />
 
 #### **روش ۲: وارد کردن با فایل JSON**
 1. به رابط کاربری گرافانا بروید و وارد شوید.
