@@ -159,6 +159,12 @@ sudo systemctl status grafana-server
    - پیش‌نیازهای داشبورد (مانند نصب پلاگین یا تنظیمات خاص) را مطالعه کنید.
 
 
+<img width="1290" height="1053" alt="image" src="https://github.com/user-attachments/assets/0194beca-675c-4b41-ac3d-720c0b964e6d" />
+
+<img width="307" height="629" alt="image" src="https://github.com/user-attachments/assets/0065d0e2-d014-43fa-b720-0f7b8da79b60" />
+
+<img width="1244" height="993" alt="image" src="https://github.com/user-attachments/assets/b39f5c48-4a4d-418f-9e60-10a463a16b3e" />
+
 
 ### **مرحله ۲: دانلود یا کپی JSON داشبورد**
 برای استفاده از داشبورد، باید فایل JSON آن را دریافت کنید یا ID داشبورد را کپی کنید.
