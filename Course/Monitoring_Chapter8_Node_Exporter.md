@@ -222,9 +222,9 @@ sudo ufw allow from <prometheus-ip> to any port 9100
 ```yaml
 - job_name: 'node_exporter'
   static_configs:
-  - targets: ['server1:9100', 'server2:9100']
-     labels:
-       env: 'production'
+     - targets: ['server1:9100', 'server2:9100']
+         labels:
+         env: 'production'
 ```
 
 4. **رفع اشکال:**
@@ -241,13 +241,13 @@ sudo netstat -tuln | grep 9100
 فرض کنید یک وب‌سرور لینوکسی دارید و می‌خواهید CPU، حافظه و ترافیک شبکه را مانیتور کنید:
 1. **نصب Node Exporter:** طبق مراحل بالا.
 2. **پیکربندی پرومتئوس:**
-   ```yaml
-   scrape_configs:
-     - job_name: 'web_server'
-       scrape_interval: 10s
-       static_configs:
-         - targets: ['webserver:9100']
-   ```
+```yaml
+scrape_configs:
+   - job_name: 'web_server'
+     scrape_interval: 10s
+     static_configs:
+       - targets: ['webserver:9100']
+```
 
 ## جمع‌بندی
 Node Exporter ابزاری قدرتمند برای مانیتورینگ سیستم‌های لینوکس با پرومتئوس است. با نصب و پیکربندی آن، تنظیم دسترسی‌ها و ایجاد داشبورد گرافانا، می‌توانید دید عمیقی به عملکرد سیستم خود داشته باشید. متریک‌های CPU، شبکه، حافظه و دیسک به شما کمک می‌کنند تا مشکلات را سریعاً شناسایی و برطرف کنید. برای یادگیری بیشتر، به مستندات Node Exporter در GitHub یا دوره‌های آموزشی پرومتئوس مراجعه کنید.
