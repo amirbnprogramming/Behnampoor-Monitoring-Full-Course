@@ -281,7 +281,7 @@ sudo systemctl status grafana-server
 ```promql
 histogram_quantile(0.95, sum(rate(demo_api_request_duration_seconds_bucket[5m])) by (le, path, method))
 ```
-    - این کوئری صدک ۹۵ (95th percentile) تأخیر درخواست‌های HTTP را برای هر مسیر (path) و متد (method) محاسبه می‌کند.
+- این کوئری صدک ۹۵ (95th percentile) تأخیر درخواست‌های HTTP را برای هر مسیر (path) و متد (method) محاسبه می‌کند.
 
 
 ---
