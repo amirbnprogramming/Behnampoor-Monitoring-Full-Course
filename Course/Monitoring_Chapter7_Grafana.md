@@ -43,7 +43,7 @@ docker run -d -p 3000:3000 --name grafana -v grafana-data:/var/lib/grafana grafa
 
 1. بسته‌های پیش‌نیاز را نصب کنید.
 ```bash
-    sudo apt-get install -y apt-transport-https software-properties-common wget gnupg2 curl
+sudo apt-get install -y apt-transport-https software-properties-common wget gnupg2 curl
 ```
 2. کلید GPG را وارد کنید.
 ```bash
