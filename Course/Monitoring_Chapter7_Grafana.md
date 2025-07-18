@@ -34,35 +34,36 @@ docker run -d -p 3000:3000 --name grafana -v grafana-data:/var/lib/grafana grafa
 ### روش ۲: استفاده از فایل‌های باینری
 گرافانا فایل‌های باینری آماده برای سیستم‌عامل‌های مختلف (مثل لینوکس) ارائه می‌دهد.
 
-**مراحل:**
-میتوانید نسخه باینری رو مستقیم دانلود کنید از سایت گرافانا ولی پیشنهاد میشود راه زیر رو مرحله به مرحله طی کنید(من براساس Debian جلو میروم ولی فرق زیادی در سایر نسخه ها نیست) :
+### روش 3: قدم به قدم با خود سایت گرافانا
 
-1. به لینک [grafana.com]([https://grafana.com](https://grafana.com/docs/grafana/latest/setup-grafana/installation/)) بروید
-2. سیستم عامل مدنظر یا توزیع آن را انتخاب کنید.
+1. به لینک [grafana.com]([https://grafana.com](https://grafana.com/docs/grafana/latest/setup-grafana/installation/)) بروید.
+2. سیستم عامل مدنظر یا توزیع آن را انتخاب کنیدو طبق آموزش ها پیش بروید.
 
 <img width="293" height="507" alt="image" src="https://github.com/user-attachments/assets/f808a3d8-c96e-4d0a-96ff-0148cc4ecf65" />
 
-3. بسته‌های پیش‌نیاز را نصب کنید.
+### روش 4: قدم به قدم با خودم
+
+1. بسته‌های پیش‌نیاز را نصب کنید.
 ```bash
     sudo apt-get install -y apt-transport-https software-properties-common wget gnupg2 curl
 ```
-4. کلید GPG را وارد کنید.
+2. کلید GPG را وارد کنید.
 ```bash
 sudo mkdir -p /etc/apt/keyrings/
 wget -q -O - https://apt.grafana.com/gpg.key | gpg --dearmor | sudo tee /etc/apt/keyrings/grafana.gpg > /dev/null
 ```
-5. برای اضافه کردن مخزن برای نسخه‌های پایدار، دستور زیر را اجرا کنید:
+3. برای اضافه کردن مخزن برای نسخه‌های پایدار، دستور زیر را اجرا کنید:
 ```bash
 echo "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
 ```
 
-6. برای به‌روزرسانی لیست بسته‌های موجود، دستور زیر را اجرا کنید:
+4. برای به‌روزرسانی لیست بسته‌های موجود، دستور زیر را اجرا کنید:
 ```bash
 # Updates the list of available packages
 sudo apt-get update
 ```
 
-7. برای نصب Grafana OSS/Enterprise، دستورات زیر را اجرا کنید:
+5. برای نصب Grafana OSS/Enterprise، دستورات زیر را اجرا کنید:
 ```bash
 # Installs the latest OSS release:
 sudo apt-get install grafana
@@ -70,7 +71,7 @@ sudo apt-get install grafana
 sudo apt-get install grafana-enterprise
 ```
 
-8. بررسی نسخه نصب‌شده :
+6. بررسی نسخه نصب‌شده :
 ```bash
 grafana-server --version
 ```
