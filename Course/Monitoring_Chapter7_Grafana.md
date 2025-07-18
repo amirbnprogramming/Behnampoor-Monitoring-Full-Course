@@ -267,16 +267,16 @@ sudo systemctl status grafana-server
 1. در داشبورد، روی **Visualization** کلیک کنید و نوع پنل را **Time Series** انتخاب کنید.
 <img width="1713" height="1046" alt="image" src="https://github.com/user-attachments/assets/450bea4b-89e7-4b20-9c2f-e44a98d6c4dc" />
 
-3. بازه زمانی را به ۳۰ دقیقه تنظیم کنید (در منوی بالا).
+2. بازه زمانی را به ۳۰ دقیقه تنظیم کنید (در منوی بالا).
 <img width="1704" height="1058" alt="Screenshot 2025-07-18 134927" src="https://github.com/user-attachments/assets/af8cbaac-2a64-4d60-9847-b8a89d4da1a5" />
 <img width="1698" height="1063" alt="Screenshot 2025-07-18 134940" src="https://github.com/user-attachments/assets/91bdd074-a24b-41e4-aee5-2f3c7c4755cf" />
 
 
-4. یک کوئری PromQL وارد کنید یا با انتخاب متریک و لجند ها مشخص کنید.
+3. یک کوئری PromQL وارد کنید یا با انتخاب متریک و لجند ها مشخص کنید.
 
 <img width="1726" height="1175" alt="image" src="https://github.com/user-attachments/assets/3e3a40a6-cfa0-4d11-8cda-cdd2b64d56cc" />
 
-5. یا از طریق وارد کردن مستقیم کوئری در قسمت code:
+4. یا از طریق وارد کردن مستقیم کوئری در قسمت code:
 
 ```promql
 histogram_quantile(0.95, sum(rate(demo_api_request_duration_seconds_bucket[5m])) by (le, path, method))
