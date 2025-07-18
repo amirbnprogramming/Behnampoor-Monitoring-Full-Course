@@ -301,22 +301,27 @@ histogram_quantile(0.95, sum(rate(demo_api_request_duration_seconds_bucket[5m]))
 
 
 > **تنظیمات پنل Panel Options:**
-   - **عنوان:** «تأخیر درخواست‌ها»
-   - **واحد:** در بخش Panel Options، واحد را به **Seconds** تنظیم کنید تا گرافانا مقادیر را به‌درستی (مثلاً در میلی‌ثانیه) نمایش دهد.
-   - **فرمت لجند:** برای خواناتر شدن لجند، به بخش Query Options بروید و فرمت دلخواه را وارد کنید:
+میتوانیم با اعمال تغییرات در قسمت تنظیمات پنل خیلی از اطلاعات مربوط به نمودارها و لجند هاشون رو تغییر بدهیم.
+
+  - **عنوان:** «تأخیر درخواست‌ها»
+  - **واحد:** در بخش Panel Options، واحد را به **Seconds** تنظیم کنید تا گرافانا مقادیر را به‌درستی (مثلاً در میلی‌ثانیه) نمایش دهد.
+  - **فرمت لجند:** برای خواناتر شدن لجند، به بخش Query Options بروید و فرمت دلخواه را وارد کنید:
 ```
 {{path}} - {{method}}
 ```
-     این کار لجند را به‌صورت زیر  نمایش می‌دهد.
-     (مثلاً `/api/get - GET`)
+  این کار لجند را به‌صورت زیر  نمایش می‌دهد.
+`/api/get - GET`
 
 
-> ** تغییر واحد ها در لجند **
+> ** نتیجه بصری **
 
 <img width="322" height="837" alt="Screenshot 2025-07-18 141001" src="https://github.com/user-attachments/assets/46292925-b481-444e-a4b8-0ea9a0f6781d" />
 <img width="311" height="449" alt="Screenshot 2025-07-18 141044" src="https://github.com/user-attachments/assets/332b80fc-9213-407b-bdb0-31c1060b2207" />
 <img width="1335" height="577" alt="Screenshot 2025-07-18 141152" src="https://github.com/user-attachments/assets/99aae6c4-b713-4f10-8ea7-a5664980378b" />
 
+
+
+  
 ---
 
 
