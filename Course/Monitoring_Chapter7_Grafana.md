@@ -242,6 +242,8 @@ sudo systemctl status grafana-server
 3. در این قسمت، **Data Source** مدنظرخود را انتخاب کنید.
 <img width="1087" height="872" alt="Screenshot 2025-07-18 134010" src="https://github.com/user-attachments/assets/632509f1-083e-4643-ad55-4ca4dc73689c" />
 
+
+---
 ### این پنل سه بخش دارد :
   - بخش Visualization
   - بخش Data Query 
@@ -252,7 +254,7 @@ sudo systemctl status grafana-server
 
 
 
-در ادامه، سه نوع پنل را ایجاد می‌کنیم:
+### در ادامه، سه نوع پنل را ایجاد می‌کنیم:
   - **نمودار سری زمانی**
   - **گیج**
   -  **جدول**
