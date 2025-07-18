@@ -104,9 +104,7 @@ sudo systemctl status grafana-server
    ```
    http://<Server_IP>:3000
    or
-   # یا اگر روی سیستم محلی نصب کرده‌اید
    http://localhost:3000
-
    ```
 
 ### **ورود به سیستم**
