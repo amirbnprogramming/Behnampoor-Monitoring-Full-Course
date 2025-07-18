@@ -1,6 +1,15 @@
 # آموزش پرومتئوس - قسمت نهم: مانیتورینگ متریک‌های سفارشی با Textfile Collector در Node Exporter
 
-در این قسمت از سری آموزش‌های پرومتئوس، به بررسی ماژول **Textfile Collector** در **Node Exporter** می‌پردازیم که به شما امکان می‌دهد متریک‌های سفارشی را از سیستم لینوکس یا یونیکسی خود به پرومتئوس اضافه کنید. این ماژول برای جمع‌آوری اطلاعاتی که به‌صورت پیش‌فرض توسط Node Exporter ارائه نمی‌شوند (مانند وضعیت کنترلر RAID یا اطلاعات بسته‌های نصب‌شده) بسیار مفید است. در این آموزش، به‌صورت گام‌به‌گام نحوه پیکربندی Textfile Collector، تولید متریک‌های سفارشی، و نمایش آن‌ها در پرومتئوس و گرافانا را توضیح می‌دهیم. همچنین، ریشه‌یابی مسئله و کاربردهای این ماژول را با مثال‌های عملی و عمیق بررسی می‌کنیم.
+در این قسمت از سری آموزش‌های پرومتئوس، به بررسی ماژول **Textfile Collector** در **Node Exporter** می‌پردازیم که به شما امکان می‌دهد متریک‌های سفارشی را از سیستم لینوکس یا یونیکسی خود به پرومتئوس اضافه کنید.
+این ماژول برای جمع‌آوری اطلاعاتی که به‌صورت پیش‌فرض توسط Node Exporter ارائه نمی‌شوند (مانند وضعیت کنترلر RAID یا اطلاعات بسته‌های نصب‌شده) بسیار مفید است. در این آموزش، به‌صورت گام‌به‌گام نحوه پیکربندی Textfile Collector، تولید متریک‌های سفارشی، و نمایش آن‌ها در پرومتئوس و گرافانا را توضیح می‌دهیم. همچنین، ریشه‌یابی مسئله و کاربردهای این ماژول را با مثال‌های عملی و عمیق بررسی می‌کنیم.
+
+- اول از همه Node Exporter چی بود؟
+ این ماژول یه ابزار از مجموعه Prometheus هست که اطلاعات و آمار (متریک‌ها) مربوط به سرور یا سیستم شما (مثل مصرف CPU، حافظه، دیسک و غیره) رو جمع‌آوری می‌کنه و به Prometheus می‌فرسته تا بتونید این اطلاعات رو  تحلیل کنید یا تو نمودارها ببینید.
+
+- متریک‌های سفارشی چی هستند؟
+ متریک‌های سفارشی، اطلاعاتی هستند که خودتون تعریف می‌کنید و Node Exporter به‌صورت پیش‌فرض اونا رو جمع‌آوری نمی‌کنه.
+ مثلاً فرض کنید می‌خواهید **تعداد کاربران آنلاین** یه برنامه خاص یا وضعیت یه کار خاص (مثل یه cronjob) رو مانیتور کنید.
+ این اطلاعات خاص و مربوط به برنامه شما هستند و باید به‌صورت دستی تعریف بشن.
 
 ## ریشه‌یابی مسئله: چرا Textfile Collector به وجود آمد؟
 
@@ -12,10 +21,11 @@
 - تعداد بسته‌های نصب‌شده در سیستم.
 - خروجی‌های خاص از اسکریپت‌های سفارشی یا ابزارهای مانیتورینگ.
  
-اینا همگی در خود Node_Exporter به طور پیش فرض نیستند .
-این متریک‌ها معمولاً در قالب استاندارد پرومتئوس (فرمت متنی OpenMetrics) توسط سیستم ارائه نمی‌شوند. بدون راهی برای افزودن این متریک‌ها، مانیتورینگ کامل سیستم دشوار می‌شود.
+> اینا همگی در خود Node_Exporter به طور پیش فرض نیستند .
+> این متریک‌ها معمولاً در قالب استاندارد پرومتئوس (فرمت متنی OpenMetrics) توسط سیستم ارائه نمی‌شوند.
+>  بدون راهی برای افزودن این متریک‌ها، مانیتورینگ کامل سیستم دشوار می‌شود.
 
-### راه‌حل
+### راه‌ حل
 ماژول **Textfile Collector** به‌عنوان یک راه‌حل انعطاف‌پذیر طراحی شد تا:
 - به کاربران اجازه دهد متریک‌های سفارشی را در فایل‌های متنی با فرمت `.prom` تولید کنند.
 - خود Node Exporter این فایل‌ها را بخواند و متریک‌ها را به خروجی خود اضافه کند.
@@ -35,7 +45,7 @@
 
 ## گام ۱: فعال‌سازی Textfile Collector
 
-خود Textfile Collector به‌صورت پیش‌فرض در Node Exporter فعال است، اما باید یک دایرکتوری برای ذخیره فایل‌های `.prom` مشخص کنید.
+ماژول Textfile Collector به‌صورت پیش‌فرض در Node Exporter فعال است، اما باید یک دایرکتوری برای ذخیره فایل‌های `.prom` مشخص کنید.
 
 1. **ایجاد دایرکتوری برای فایل‌های متریک:**
 ```bash
@@ -78,6 +88,8 @@ metric_name{label1="value1", label2="value2"} value
 - **قسمت HELP:** توضیحی برای متریک.
 - **قسمت TYPE:** نوع متریک (مثل `gauge`، `counter`، یا `histogram`).
 - **قسمت value:** مقدار عددی آن متریک که pull شده .
+  
+---
 
 ### مثال ۱: مانیتورینگ زمان اجرای کرون‌جاب
 فرض کنید یک کرون‌جاب دارید که می‌خواهید زمان آخرین اجرای آن را مانیتور کنید.
@@ -92,10 +104,11 @@ nano /usr/local/bin/generate_cron_metric.sh
 ```bash
 #!/bin/bash
 METRIC_DIR="/var/lib/node_exporter/textfile_metrics"
+# برای اتمیک ساختن فایل مدنظر است که یک temp میسازه بعد یه final
 TEMP_FILE="$METRIC_DIR/cron_last_run.$$.prom"
 FINAL_FILE="$METRIC_DIR/cron_last_run.prom"
 
-   # تولید متریک
+   # تولید متریک که یک رشته با فرمت خاص است
 echo "# HELP cron_last_run_timestamp Timestamp of the last cron job run in Unix seconds" > $TEMP_FILE
 echo "# TYPE cron_last_run_timestamp gauge" >> $TEMP_FILE
 echo "cron_last_run_timestamp $(date +%s)" >> $TEMP_FILE
@@ -134,17 +147,7 @@ cron_last_run_timestamp
 ```
    این کوئری زمان آخرین اجرای کرون‌جاب را نشان می‌دهد.
 
-**کاربرد:** می‌توانید هشدار تنظیم کنید تا اگر کرون‌جاب برای مدتی اجرا نشد، اطلاع‌رسانی شود:
-```promql
-ALERT CronJobNotRunning
-  IF time() - cron_last_run_timestamp > 300
-  FOR 5m
-  LABELS { severity = "warning" }
-  ANNOTATIONS {
-    summary = "کرون‌جاب اجرا نشده است",
-    description = "کرون‌جاب برای بیش از ۵ دقیقه اجرا نشده است."
-  }
-```
+---
 
 ### مثال ۲: مانیتورینگ تعداد بسته‌های نصب‌شده
 فرض کنید می‌خواهید تعداد بسته‌های نصب‌شده در سیستم (مثلاً در Ubuntu) را مانیتور کنید.
@@ -188,75 +191,6 @@ node_package_count
 
 **کاربرد:** می‌توانید تغییرات غیرمنتظره در تعداد بسته‌ها (مثلاً نصب یا حذف ناخواسته) را تشخیص دهید.
 
-### مثال ۳: استفاده از کتابخانه Go
-برای تولید متریک‌های پیچیده‌تر، می‌توانید از کتابخانه Go پرومتئوس استفاده کنید.
-
-1. **نصب Go (اگر نصب نیست):**
-```bash
-sudo apt install golang
-```
-
-2. **ایجاد برنامه Go:**
-   فایل `generate_metric.go`:
-```go
-package main
-
-import (
-       "github.com/prometheus/client_golang/prometheus"
-       "github.com/prometheus/client_golang/prometheus/collectors"
-       "github.com/prometheus/common/expfmt"
-       "os"
-)
-
-func main() {
-   registry := prometheus.NewRegistry()
-   gauge := prometheus.NewGauge(prometheus.GaugeOpts{
-   Name: "custom_service_status",
-   Help: "Status of a custom service (1=up, 0=down)",
-})
-registry.Register(gauge)
-       // فرض کنید وضعیت سرویس را بررسی می‌کنید
-gauge.Set(1) // سرویس فعال است
-
-       // نوشتن متریک به فایل
-file, _ := os.Create("/var/lib/node_exporter/textfile_metrics/service_status.prom")
-defer file.Close()
-encoder := expfmt.NewEncoder(file, expfmt.FmtText)
-encoder.Encode(collectors.NewGoCollector())
-encoder.Encode(registry.MustRegister(gauge).(*prometheus.GaugeVec))
-}
-   ```
-
-3. **کامپایل و اجرا:**
-```bash
-go build -o generate_metric generate_metric.go
-sudo mv generate_metric /usr/local/bin/
-/usr/local/bin/generate_metric
-```
-
-4. **بررسی متریک:**
-   متریک `custom_service_status` در `http://localhost:9100/metrics` ظاهر می‌شود.
-
-**کاربرد:** این روش برای برنامه‌های پیچیده‌تر که نیاز به متریک‌های پویا دارند مناسب است.
-
-## گام ۳: ادغام با پرومتئوس و گرافانا
-
-1. **اسکرپ متریک‌ها در پرومتئوس:**
-   مطمئن شوید که Node Exporter در فایل `prometheus.yml` تنظیم شده است:
-```yaml
-scrape_configs:
-   - job_name: 'node_exporter'
-      scrape_interval: 15s
-      static_configs:
-         - targets: ['localhost:9100']
-```
-
-2. **ایجاد داشبورد گرافانا:**
-   - داشبورد **Node Exporter Full (ID: 1860)** را ایمپورت کنید.
-   - برای متریک‌های سفارشی، یک پنل جدید اضافه کنید:
-     - **کوئری:** `cron_last_run_timestamp` یا `node_package_count`
-     - **نوع پنل:** Gauge (برای مقادیر لحظه‌ای) یا Graph (برای تغییرات زمانی).
-     - **عنوان:** مثلاً «زمان آخرین اجرای کرون‌جاب» یا «تعداد بسته‌های نصب‌شده».
 
 ## نکات کاربردی
 
@@ -267,18 +201,15 @@ scrape_configs:
 mv temp_file.prom final_file.prom
 ```
 
-2. **مدیریت تعداد متریک‌ها:**
-   - از تولید متریک‌های بیش از حد خودداری کنید، زیرا ممکن است عملکرد Node Exporter یا پرومتئوس را تحت تأثیر قرار دهد.
-   - کلکتورهای غیرضروری را غیرفعال کنید (مثل `--no-collector.diskstats`).
-
-3. **امنیت:**
+2. **امنیت:**
    - دایرکتوری `/var/lib/node_exporter/textfile_metrics` باید فقط برای کاربر `node_exporter` قابل نوشتن باشد:
 ```bash
 sudo chmod 750 /var/lib/node_exporter/textfile_metrics
 ```
 
-4. **منابع الهام:**
+3. **منابع مهم :**
    - مخزن [prometheus-community/node-exporter-textfile-collector-scripts](https://github.com/prometheus-community/node-exporter-textfile-collector-scripts) شامل اسکریپت‌های آماده برای تولید متریک است.
+
 
 ## مثال جامع: مانیتورینگ وضعیت RAID
 فرض کنید می‌خواهید وضعیت یک کنترلر RAID را مانیتور کنید.
