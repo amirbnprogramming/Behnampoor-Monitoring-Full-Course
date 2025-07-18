@@ -25,10 +25,10 @@ wget https://github.com/prometheus/node_exporter/releases/download/v1.8.2/node_e
 
 ### ۱.۲. استخراج فایل
 1. فایل دانلودشده را استخراج کنید:
-   ```bash
-   tar -zxvf node_exporter-1.8.2.linux-amd64.tar.gz
-   cd node_exporter-1.8.2.linux-amd64
-   ```
+```bash
+tar -zxvf node_exporter-1.8.2.linux-amd64.tar.gz
+cd node_exporter-1.8.2.linux-amd64
+```
 2. فایل باینری `node_exporter` را مشاهده خواهید کرد. این فایل به زبان Go نوشته شده و نیازی به نصب وابستگی ندارد.
 
 ### ۱.۳. انتقال به دایرکتوری مناسب
@@ -42,21 +42,21 @@ sudo mv node_exporter /usr/bin/
 برای امنیت بیشتر، Node Exporter را با یک کاربر غیرروت (non-root) اجرا می‌کنیم.
 
 1. **ایجاد کاربر اختصاصی:**
-   ```bash
-   sudo useradd -rs /bin/false node_exporter
-   ```
+```bash
+sudo useradd -rs /bin/false node_exporter
+```
    - این دستور یک کاربر سیستمی به نام `node_exporter` ایجاد می‌کند که نمی‌تواند وارد شل شود.
 
 2. **تنظیم مالکیت فایل:**
-   ```bash
-   sudo chown node_exporter:node_exporter /usr/bin/node_exporter
-   ```
+```bash
+sudo chown node_exporter:node_exporter /usr/bin/node_exporter
+```
 
 3. **ایجاد دایرکتوری برای لاگ‌ها و تنظیمات (اختیاری):**
-   ```bash
-   sudo mkdir /var/log/node_exporter
-   sudo chown node_exporter:node_exporter /var/log/node_exporter
-   ```
+```bash
+sudo mkdir /var/log/node_exporter
+sudo chown node_exporter:node_exporter /var/log/node_exporter
+```
 
 ## گام ۳: اجرای Node Exporter
 
@@ -95,104 +95,98 @@ Node Exporter از **کلکتورها (Collectors)** برای جمع‌آوری 
 برای اجرای Node Exporter به‌صورت سرویس سیستمی:
 
 1. فایل سرویس Systemd را ایجاد کنید:
-   ```bash
-   sudo nano /etc/systemd/system/node_exporter.service
-   ```
+```bash
+sudo nano /etc/systemd/system/node_exporter.service
+```
 
 2. محتوای زیر را اضافه کنید:
-   ```ini
-   [Unit]
-   Description=Prometheus Node Exporter
-   After=network.target
+```ini
+[Unit]
+Description=Prometheus Node Exporter
+After=network.target
 
-   [Service]
-   User=node_exporter
-   Group=node_exporter
-   Type=simple
-   ExecStart=/usr/bin/node_exporter \
-       --collector.filesystem.fs-types-exclude=^(tmpfs|sysfs|proc|devtmpfs)$
-   Restart=always
+[Service]
+User=node_exporter
+Group=node_exporter
+Type=simple
+ExecStart=/usr/bin/node_exporter \
+--collector.filesystem.fs-types-exclude=^(tmpfs|sysfs|proc|devtmpfs)$
+Restart=always
 
-   [Install]
-   WantedBy=multi-user.target
-   ```
+[Install]
+WantedBy=multi-user.target
+```
 
 3. سرویس را فعال و اجرا کنید:
-   ```bash
-   sudo systemctl daemon-reload
-   sudo systemctl start node_exporter
-   sudo systemctl enable node_exporter
-   ```
+```bash
+sudo systemctl daemon-reload
+sudo systemctl start node_exporter
+sudo systemctl enable node_exporter
+```
 
 4. وضعیت سرویس را بررسی کنید:
-   ```bash
-   sudo systemctl status node_exporter
-   ```
+```bash
+sudo systemctl status node_exporter
+```
 
 ## گام ۴: پیکربندی پرومتئوس برای اسکرپ Node Exporter
 
 برای جمع‌آوری متریک‌ها، باید پرومتئوس را تنظیم کنید تا Node Exporter را اسکرپ کند.
 
 1. فایل پیکربندی پرومتئوس را ویرایش کنید (معمولاً در `/etc/prometheus/prometheus.yml`):
-   ```bash
-   sudo nano /etc/prometheus/prometheus.yml
-   ```
+```bash
+sudo nano /etc/prometheus/prometheus.yml
+```
 
 2. یک job جدید برای Node Exporter اضافه کنید:
-   ```yaml
-   scrape_configs:
-     - job_name: 'node_exporter'
-       scrape_interval: 15s
-       static_configs:
-         - targets: ['localhost:9100']
-   ```
+```yaml
+scrape_configs:
+  - job_name: 'node_exporter'
+    scrape_interval: 15s
+    static_configs:
+      - targets: ['localhost:9100']
+```
 
 3. پرومتئوس را ری‌استارت کنید:
-   ```bash
-   sudo systemctl restart prometheus
-   ```
+```bash
+sudo systemctl restart prometheus
+```
 
 4. در رابط وب پرومتئوس (`http://<prometheus-server>:9090/targets`) بررسی کنید که هدف `node_exporter` به‌درستی اسکرپ می‌شود.
+<img width="1265" height="700" alt="image" src="https://github.com/user-attachments/assets/dff460c2-a4cd-4647-8622-c0febfd7f93e" />
+
 
 ## گام ۵: بررسی متریک‌ها در پرومتئوس
 
 1. به رابط وب پرومتئوس (`http://<prometheus-server>:9090/graph`) بروید.
 2. متریک‌های با پیشوند `node_` را جستجو کنید:
-   ```promql
-   node_
-   ```
+```promql
+node_
+```
    - این دستور تمام متریک‌های Node Exporter را نشان می‌دهد.
 
 ### مثال ۱: مانیتورینگ استفاده از CPU
-متریک `node_cpu_seconds_total` زمان صرف‌شده توسط CPU در حالت‌های مختلف (مثل `user`, `system`, `idle`) را نشان می‌دهد. این یک کانتر است، بنابراین باید از تابع `rate` استفاده کنیم.
+متریک `node_cpu_seconds_total` زمان صرف‌شده توسط CPU در حالت‌های مختلف (مثل `user`, `system`, `idle`) را نشان می‌دهد.
+این یک کانتر است، بنابراین باید از تابع `rate` استفاده کنیم.
 
 **کوئری:**
 ```promql
 rate(node_cpu_seconds_total{mode="user"}[5m])
 ```
+
+<img width="1262" height="467" alt="image" src="https://github.com/user-attachments/assets/9fcdfff6-0b7b-47e0-88f3-38bd0e5f79dd" />
+
 - **توضیح:** نرخ استفاده از CPU در حالت کاربر (user mode) را برای هر هسته در ۵ دقیقه نشان می‌دهد.
 - **کاربرد:** می‌توانید این کوئری را در یک نمودار سری زمانی استفاده کنید تا بار CPU را بررسی کنید.
-
-**هشدار نمونه:**
-```promql
-ALERT HighCPUUsage
-  IF sum(rate(node_cpu_seconds_total{mode="user"}[5m])) by (instance) > 0.8
-  FOR 5m
-  LABELS { severity = "warning" }
-  ANNOTATIONS {
-    summary = "بار CPU بالا در {{ $labels.instance }}",
-    description = "استفاده از CPU بیش از ۸۰٪ برای ۵ دقیقه."
-  }
-```
 
 ### مثال ۲: مانیتورینگ شبکه
 متریک `node_network_receive_bytes_total` تعداد بایت‌های دریافتی توسط رابط‌های شبکه را نشان می‌دهد.
 
 **کوئری:**
 ```promql
-rate(node_network_receive_bytes_total{interface="eth0"}[5m])
+rate(node_network_receive_bytes_total{device='ens33'}[5m])
 ```
-- **توضیح:** نرخ دریافت داده (بایت بر ثانیه) برای رابط `eth0` را نشان می‌دهد.
+- **توضیح:** نرخ دریافت داده (بایت بر ثانیه) برای رابط `ens33` را نشان می‌دهد.
 - **کاربرد:** برای شناسایی ترافیک غیرعادی شبکه یا نظارت بر پهنای باند.
 
 ## گام ۶: ایجاد داشبورد گرافانا
@@ -204,7 +198,7 @@ rate(node_network_receive_bytes_total{interface="eth0"}[5m])
 
 2. **وارد کردن داشبورد:**
    - در گرافانا، به منوی **Dashboards > Import** بروید.
-   - ID داشبورد (`1860`) را وارد کنید.
+   - وارد کردن ID داشبورد (`1860`).
    - منبع داده پرومتئوس را انتخاب کنید و داشبورد را ایمپورت کنید.
 
 3. **بررسی داشبورد:**
@@ -212,43 +206,36 @@ rate(node_network_receive_bytes_total{interface="eth0"}[5m])
    - مثال: ردیف CPU نشان می‌دهد که کدام هسته‌ها تحت فشار هستند.
 
 **مثال عملی:**
-فرض کنید سرور شما به دلیل بار زیاد CPU کند شده است. در داشبورد، ردیف **CPU Usage** نشان می‌دهد که هسته‌های خاصی بیش از ۸۰٪ استفاده دارند. با بررسی متریک `node_cpu_seconds_total{mode="user"}`، می‌توانید فرآیندهای پرمصرف را شناسایی کنید (مثلاً با ابزار `top` یا `htop`).
-
-## نکات کاربردی
-
-1. **بهینه‌سازی کلکتورها:**
-   - کلکتورهای غیرضروری را غیرفعال کنید تا تعداد متریک‌ها کاهش یابد:
-     ```bash
-     /usr/bin/node_exporter --no-collector.arp --no-collector.bonding
-     ```
-   - سیستم‌های فایل غیرضروری را فیلتر کنید تا متریک‌های بی‌ربط حذف شوند.
+فرض کنید سرور شما به دلیل بار زیاد CPU کند شده است. 
+در داشبورد، ردیف **CPU Usage** نشان می‌دهد که هسته‌های خاصی بیش از ۸۰٪ استفاده دارند.
+با بررسی متریک `node_cpu_seconds_total{mode="user"}`، می‌توانید فرآیندهای پرمصرف را شناسایی کنید (مثلاً با ابزار `top` یا `htop`).
 
 2. **امنیت:**
-   - Node Exporter را پشت فایروال قرار دهید و فقط به پرومتئوس اجازه دسترسی به پورت 9100 بدهید:
-     ```bash
-     sudo ufw allow from <prometheus-ip> to any port 9100
-     ```
+   - مهم است که Node Exporter را پشت فایروال قرار دهید و فقط به پرومتئوس اجازه دسترسی به پورت 9100 بدهید:
+```bash
+sudo ufw allow from <prometheus-ip> to any port 9100
+```
    - برای احراز هویت، می‌توانید از پراکسی معکوس (مثل Nginx) با احراز هویت پایه استفاده کنید.
 
 3. **مانیتورینگ چند سرور:**
    - برای چندین سرور، هر Node Exporter را با برچسب‌های مختلف (مثل `instance`) پیکربندی کنید:
-     ```yaml
-     - job_name: 'node_exporter'
-       static_configs:
-         - targets: ['server1:9100', 'server2:9100']
-           labels:
-             env: 'production'
-     ```
+```yaml
+- job_name: 'node_exporter'
+  static_configs:
+  - targets: ['server1:9100', 'server2:9100']
+     labels:
+       env: 'production'
+```
 
 4. **رفع اشکال:**
    - اگر متریک‌ها در پرومتئوس ظاهر نشدند، لاگ‌های Node Exporter را بررسی کنید:
-     ```bash
-     journalctl -u node_exporter
-     ```
+```bash
+journalctl -u node_exporter
+```
    - مطمئن شوید پورت 9100 باز است:
-     ```bash
-     sudo netstat -tuln | grep 9100
-     ```
+```bash
+sudo netstat -tuln | grep 9100
+```
 
 ## مثال جامع: مانیتورینگ یک وب‌سرور
 فرض کنید یک وب‌سرور لینوکسی دارید و می‌خواهید CPU، حافظه و ترافیک شبکه را مانیتور کنید:
@@ -261,16 +248,6 @@ rate(node_network_receive_bytes_total{interface="eth0"}[5m])
        static_configs:
          - targets: ['webserver:9100']
    ```
-3. **ایجاد داشبورد گرافانا:** داشبورد Node Exporter Full (ID: 1860) را ایمپورت کنید.
-4. **هشدارها:**
-   - برای CPU بالا:
-     ```promql
-     sum(rate(node_cpu_seconds_total{mode="user", instance="webserver:9100"}[5m])) > 0.8
-     ```
-   - برای فضای دیسک کم:
-     ```promql
-     node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"} < 0.1
-     ```
 
 ## جمع‌بندی
 Node Exporter ابزاری قدرتمند برای مانیتورینگ سیستم‌های لینوکس با پرومتئوس است. با نصب و پیکربندی آن، تنظیم دسترسی‌ها و ایجاد داشبورد گرافانا، می‌توانید دید عمیقی به عملکرد سیستم خود داشته باشید. متریک‌های CPU، شبکه، حافظه و دیسک به شما کمک می‌کنند تا مشکلات را سریعاً شناسایی و برطرف کنید. برای یادگیری بیشتر، به مستندات Node Exporter در GitHub یا دوره‌های آموزشی پرومتئوس مراجعه کنید.
