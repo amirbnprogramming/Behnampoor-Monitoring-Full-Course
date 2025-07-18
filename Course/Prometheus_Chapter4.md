@@ -139,12 +139,22 @@ demo_memory_usage_bytes
 ```promql
 demo_memory_usage_bytes[1m]
 ```
+
+<img width="1236" height="727" alt="image" src="https://github.com/user-attachments/assets/ab083a66-e756-4251-9e07-2e3820959a86" />
+
 این پرس‌وجو تمام نمونه‌های سری‌های زمانی `demo_memory_usage_bytes` را در بازه یک دقیقه گذشته برمی‌گرداند. اگر پرومتئوس هر 15 ثانیه اسکریپ کند، حدود 4 نمونه برای هر سری زمانی بازگردانده می‌شود.
+
 
 > **توجه**: نتایج بردار بازه‌ای نمی‌توانند مستقیماً در گراف نمایش داده شوند، زیرا چندین نمونه برای هر سری در هر مرحله رزولوشن تولید می‌کنند. برای نمایش، باید از توابعی مانند `rate()` استفاده کنید:
 ```promql
 rate(demo_memory_usage_bytes[1m])
 ```
+
+<img width="1252" height="770" alt="Screenshot 2025-07-18 101602" src="https://github.com/user-attachments/assets/9024377e-564c-49b6-adbe-88a7c60c3e32" />
+
+
+<img width="1416" height="1251" alt="image" src="https://github.com/user-attachments/assets/74a73f68-c034-456d-9674-58731d12feb6" />
+
 
 ### تفاوت با انتخابگرهای بردار لحظه‌ای
 - **بازه زمانی قابل‌انتخاب**: می‌توانید بازه زمانی (مانند 1 دقیقه، 5 دقیقه یا 1 ساعت) را آزادانه انتخاب کنید.
