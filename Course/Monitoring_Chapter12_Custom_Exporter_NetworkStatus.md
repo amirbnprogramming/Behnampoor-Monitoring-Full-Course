@@ -219,9 +219,9 @@ sudo systemctl enable grafana-server
    - از **Unit** مناسب استفاده کنید (مثلاً `bytes` برای حجم و `bytes/sec` برای سرعت).
    - رنگ‌ها و لیبل‌ها را سفارشی کنید.
    - چندین پنل برای هر کارت شبکه ایجاد کنید.
-   - 
- داشبورد را ذخیره کنید ، نتیجه داشبورد:
-<img width="1257" height="1218" alt="image" src="https://github.com/user-attachments/assets/2dcf462e-afa3-4d88-996c-81d06c3bd3a1" />
+     
+ > داشبورد را ذخیره کنید ، نتیجه داشبورد:
+- <img width="1257" height="1218" alt="image" src="https://github.com/user-attachments/assets/2dcf462e-afa3-4d88-996c-81d06c3bd3a1" />
 
 ### نکات برای نمایش بهینه در گرافانا
 - **فیلتر کردن کارت‌های شبکه**: از متغیر (Variable) در گرافانا استفاده کنید تا کاربران بتوانند کارت شبکه مورد نظر را انتخاب کنند. برای این کار:
