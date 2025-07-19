@@ -293,14 +293,13 @@ sudo apt install prometheus-alertmanager
   - مثال: تنظیم می‌کنه که هشدارها به کانال Slack "#alerts" برن با متن "دیسک پر شده!".
 
 ---
-3. **اعمال مالکیت و دسترسی**:
+ **اعمال مالکیت و دسترسی**:
    ```bash
    sudo chown alertmanager:alertmanager /etc/alertmanager/alertmanager.yml
    sudo chmod 640 /etc/alertmanager/alertmanager.yml
    ```
 
-4. **بررسی صحت فایل پیکربندی**:
-   از ابزار `amtool` برای بررسی صحت فایل پیکربندی استفاده کنید:
+ **بررسی صحت فایل پیکربندی**: از ابزار `amtool` برای بررسی صحت فایل پیکربندی استفاده کنید.
    ```bash
    amtool check-config /etc/alertmanager/alertmanager.yml
    ```
