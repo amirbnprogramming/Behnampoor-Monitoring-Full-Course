@@ -265,6 +265,7 @@ sudo apt install prometheus-alertmanager
            channel: '#alerts'
            send_resolved: true
    ```
+
 فایل تنظیمات Alertmanager (معمولاً `alertmanager.yml`) شامل بخش‌های زیر است:
 
 1. **قسمت Global**: 
@@ -277,15 +278,21 @@ sudo apt install prometheus-alertmanager
   - قوانینی برای سرکوب هشدارهای کم‌اهمیت.
 5. **قسمت group_by**:
   - هشدارها را بر اساس برچسب‌هایی مثل `alertname` و `namespace` گروه‌بندی می‌کند.
+  - مثال: اگه 5 سرور تو namespace "test" مشکل CPU داشته باشن، یه پیام می‌فرسته: "مشکل CPU در namespace test".
 6. **قسمت group_wait**:
   - مدت زمانی که منتظر می‌ماند تا هشدارهای مرتبط جمع شوند.
+  - مثال: اگه CPU سرور بالا بره، 30 ثانیه صبر می‌کنه تا ببینه هشدارهای دیگه‌ای هم هست، بعد یه پیام می‌فرسته.
 7. **قسمت group_interval**:
   - فاصله بین ارسال گروه‌های جدید هشدار.
+  - مثال: اگه گروهی از هشدارها هر 5 دقیقه یه بار جمع بشن، هر 5 دقیقه یه پیام جدید می‌فرسته.
 8. **قسمت repeat_interval**:
   - فاصله زمانی برای تکرار هشدار.
+  - مثال: اگه مشکل CPU حل نشه، هر 4 ساعت یه بار دوباره هشدار می‌فرسته.
 9. **قسمت slack_configs**:
   - تنظیمات مربوط به ارسال اعلان به Slack.
+  - مثال: تنظیم می‌کنه که هشدارها به کانال Slack "#alerts" برن با متن "دیسک پر شده!".
 
+---
 3. **اعمال مالکیت و دسترسی**:
    ```bash
    sudo chown alertmanager:alertmanager /etc/alertmanager/alertmanager.yml
