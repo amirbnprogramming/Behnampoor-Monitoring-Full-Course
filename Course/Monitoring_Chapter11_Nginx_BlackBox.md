@@ -103,13 +103,12 @@ Commercial support is available at
 <p><em>Thank you for using nginx.</em></p>
 </body>
 </html>
-
-
-خروجی باید شامل HTML صفحه پیش‌فرض Nginx باشد.
+- خروجی باید شامل HTML صفحه پیش‌فرض Nginx باشد.
 ---
-## فعال‌سازی ماژول stub_status در Nginx
-برای استفاده از Nginx Exporter، باید ماژول `http_stub_status_module` در Nginx فعال باشد.
-این ماژول به طور پیش‌فرض در بسیاری از نسخه‌های Nginx وجود دارد، اما باید آن را در فایل پیکربندی فعال کنید.
+### فعال‌سازی ماژول stub_status در Nginx
+- برای استفاده از Nginx Exporter، باید ماژول `http_stub_status_module` در Nginx فعال باشد.
+- این ماژول به طور پیش‌فرض در بسیاری از نسخه‌های Nginx وجود دارد، اما باید آن را در فایل پیکربندی فعال کنید.
+---
 
 1. فایل پیکربندی Nginx را باز کنید (معمولاً در `/etc/nginx/nginx.conf` یا `/etc/nginx/conf.d/`):
    ```bash
@@ -134,7 +133,7 @@ Commercial support is available at
    sudo nginx -t
    ```
 
-4. Nginx را ری‌استارت کنید:
+4.سرویس Nginx را ری‌استارت کنید:
    ```bash
    sudo systemctl restart nginx
    ```
