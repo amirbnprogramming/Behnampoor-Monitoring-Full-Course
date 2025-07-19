@@ -598,13 +598,41 @@ kubectl port-forward svc/prom-prometheus-stack-alertmanager 9093:9093 -n monitor
 
 
 ---
-## مثال ساده: فرض کنید می‌خواهیم بررسی کنیم که آیا یک سرور یا سرویس (مثلاً یک وب‌سرور) در دسترس است یا خیر؟
+## مثال ساده: سرور در دسترس است یا خیر؟
 سرویس Prometheus متریکی به نام up دارد که وضعیت یک سرویس را نشان می‌دهد:
 
 > - وقتی up{job="my_service"} == 1 یعنی سرویس در دسترس است.
 > - وقتی up{job="my_service"} == 0 یعنی سرویس از دسترس خارج است.
 > - ما می‌خواهیم اگر سرور Down شد، یک هشدار دریافت کنیم.
 
+
+### نوشتن فایل Alerting Rule
+فایل‌های قوانین هشدار معمولاً در یک فایل YAML جداگانه (مثلاً alert_rules.yml) نوشته می‌شوند و به Prometheus معرفی می‌شوند.
+بیایید یک قانون ساده بنویسیم ، فایل alert_rules.yml:
+```yaml
+groups:
+- name: example-alerts
+  rules:
+  - alert: ServiceDown
+    expr: up{job="my_service"} == 0
+    for: 5m
+    labels:
+      severity: critical
+      team: devops
+    annotations:
+      summary: "Service {{ $labels.instance }} is down"
+      description: "{{ $labels.instance }} has been down for more than 5 minutes."
+```
+### توضیحات:
+
+- قسمت groups: قوانین هشدار در گروه‌ها سازمان‌دهی می‌شوند. اینجا یک گروه به نام example-alerts تعریف کردیم.
+- قسمتalert: نام هشدار (مثلاً ServiceDown) که در Alertmanager نمایش داده می‌شود.
+- قسمتexpr: عبارتی که Prometheus بررسی می‌کند. اینجا چک می‌کنیم که اگر متریک up برای سرویس my_service صفر باشد، یعنی سرویس خاموش است.
+- قسمتfor: مدت زمانی که شرط باید برقرار باشد تا هشدار فعال شود (اینجا ۵ دقیقه).
+- قسمتlabels: برچسب‌هایی برای دسته‌بندی هشدار (مثلاً severity: critical برای نشان دادن اهمیت).
+- قسمتannotations: اطلاعات اضافی برای توضیح هشدار:
+- قسمتsummary: خلاصه‌ای کوتاه از مشکل.
+- قسمتdescription: توضیح مفصل‌تر که می‌تواند از متغیرهایی مثل {{ $labels.instance }} استفاده کند تا نام نمونه (instance) را نمایش دهد.
 
 
 
