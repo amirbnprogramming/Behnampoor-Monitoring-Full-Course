@@ -106,9 +106,8 @@ Commercial support is available at
 
 
 خروجی باید شامل HTML صفحه پیش‌فرض Nginx باشد.
-<div dir='rtl'>
-### فعال‌سازی ماژول stub_status در Nginx
-
+---
+## فعال‌سازی ماژول stub_status در Nginx
 برای استفاده از Nginx Exporter، باید ماژول `http_stub_status_module` در Nginx فعال باشد.
 این ماژول به طور پیش‌فرض در بسیاری از نسخه‌های Nginx وجود دارد، اما باید آن را در فایل پیکربندی فعال کنید.
 
@@ -264,7 +263,6 @@ Commercial support is available at
 - **پورت‌ها**: Nginx Exporter به طور پیش‌فرض روی پورت 9113 اجرا می‌شود. اگر پورت دیگری استفاده می‌کنید، در پیکربندی Prometheus آن را تنظیم کنید.
 - **لاگ‌ها**: لاگ‌های Nginx Exporter را در `/etc/nginx_exporter` بررسی کنید تا از عملکرد صحیح مطمئن شوید.
 - **مقیاس‌پذیری**: اگر چندین سرور Nginx دارید، برای هر سرور یک instance از Nginx Exporter اجرا کنید و در Prometheus به صورت جداگانه تعریف کنید.
-</div>
 ---
 
 ## بخش سوم: Blackbox Exporter چیست؟
