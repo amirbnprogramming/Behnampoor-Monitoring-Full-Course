@@ -635,4 +635,63 @@ groups:
 - قسمتdescription: توضیح مفصل‌تر که می‌تواند از متغیرهایی مثل {{ $labels.instance }} استفاده کند تا نام نمونه (instance) را نمایش دهد.
 
 
+### پیکربندی Prometheus
+برای استفاده از این قانون، باید فایل alert_rules.yml را به Prometheus معرفی کنید. در فایل پیکربندی Prometheus (مثلاً prometheus.yml)، بخش rule_files را به این صورت تنظیم کنید:
 
+```yaml
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'my_service'
+    static_configs:
+      - targets: ['localhost:8080']  # آدرس سرویسی که می‌خواهید مانیتور کنید
+
+rule_files:
+  - 'alert_rules.yml'  # مسیر فایل قوانین هشدار
+```
+
+- بعد از این کار، Prometheus را ری‌استارت کنید تا قوانین بارگذاری شوند:
+```bash
+sudo systemctl restart prometheus
+```
+
+### پیکربندی Alertmanager برای ارسال پیام
+سرویس Alertmanager مسئول مدیریت هشدارها و ارسال آن‌ها به کانال‌های مختلف (مثل ایمیل، Slack، Telegram و غیره) است. 
+بیایید یک پیکربندی ساده برای Alertmanager بنویسیم که هشدارها را به یک کانال Slack ارسال کند.
+
+فایل alertmanager.yml:
+```yaml
+global:
+  slack_api_url: 'https://hooks.slack.com/services/XXXX/YYYY/ZZZZ'  # وب‌هوک Slack خود را وارد کنید
+
+route:
+  receiver: 'slack-notifications'
+  group_by: ['alertname', 'instance']
+
+receivers:
+- name: 'slack-notifications'
+  slack_configs:
+  - channel: '#alerts'
+    send_resolved: true
+    title: "{{ .CommonAnnotations.summary }}"
+    text: "{{ .CommonAnnotations.description }}"
+```
+
+### راه‌اندازی Alertmanager
+فایل alertmanager.yml را در مسیر مناسب (مثلاً /etc/alertmanager/) ذخیره کنید.
+سرویس Alertmanager را ری‌استارت کنید:
+```bash
+sudo systemctl restart alertmanager
+```
+- مطمئن شوید که Prometheus به Alertmanager متصل است. در فایل prometheus.yml، بخش alerting را اضافه کنید:
+```yaml
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ['localhost:9093']  # آدرس Alertmanager
+```
+
+
+### تست و بررسی
+برای تست، می‌توانید سرویسی که مانیتور می‌کنید (مثلاً localhost:8080) را خاموش کنید تا متریک up به 0 تغییر کند. بعد از ۵ دقیقه (طبق تنظیم for: 5m)، یک هشدار به alert manager ارسال میشود.
