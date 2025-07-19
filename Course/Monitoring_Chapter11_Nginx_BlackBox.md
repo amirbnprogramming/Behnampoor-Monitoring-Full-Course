@@ -34,8 +34,63 @@
 
 ## بخش دوم: نصب و پیکربندی Nginx Exporter
 
-### قدم ۱: فعال‌سازی ماژول stub_status در Nginx
-برای استفاده از Nginx Exporter، باید ماژول `http_stub_status_module` در Nginx فعال باشد. این ماژول به طور پیش‌فرض در بسیاری از نسخه‌های Nginx وجود دارد، اما باید آن را در فایل پیکربندی فعال کنید.
+### ابتدا باید خود nginx رو نصب داشته باشیم.
+
+#### پیش‌نیازها
+قبل از شروع نصب، مطمئن شوید که شرایط زیر را دارید:
+- یک سرور لینوکس (ترجیحاً Ubuntu 20.04 یا بالاتر)
+- دسترسی کاربر با امتیازات `sudo`
+- اتصال به اینترنت برای دانلود بسته‌ها
+- دانش پایه در مورد خط فرمان لینوکس
+- (اختیاری) فایروال فعال (مانند `ufw`) برای مدیریت دسترسی‌ها
+
+---
+
+#### نصب Nginx
+
+### قدم ۱: به‌روزرسانی سیستم
+قبل از نصب، بسته‌های سیستم را به‌روز کنید تا از آخرین نسخه‌ها استفاده کنید:
+```bash
+sudo apt update && sudo apt upgrade -y
+```
+
+#### نصب بسته Nginx
+Nginx در مخازن پیش‌فرض Ubuntu موجود است. برای نصب آن، دستور زیر را اجرا کنید:
+```bash
+sudo apt install nginx -y
+```
+
+این دستور نسخه پایدار Nginx را همراه با وابستگی‌های لازم نصب می‌کند.
+
+#### بررسی وضعیت نصب
+پس از نصب، بررسی کنید که Nginx به درستی نصب شده و در حال اجراست:
+```bash
+sudo systemctl status nginx
+```
+
+خروجی باید نشان دهد که سرویس `active (running)` است. اگر سرویس اجرا نشده، آن را فعال کنید:
+```bash
+sudo systemctl start nginx
+sudo systemctl enable nginx
+```
+
+- ` دستور start`: سرویس را اجرا می‌کند.
+- `دستور enable`: سرویس را تنظیم می‌کند تا در زمان بوت سیستم به صورت خودکار اجرا شود.
+
+#### بررسی دسترسی به وب‌سرور
+برای اطمینان از نصب صحیح، مرورگر خود را باز کنید و آدرس IP سرور یا `localhost` را وارد کنید (مثلاً `http://<server-ip>` یا `http://localhost`). باید صفحه پیش‌فرض Nginx را ببینید که معمولاً پیامی مانند "Welcome to nginx!" نمایش می‌دهد.
+
+اگر از خط فرمان هستید، می‌توانید از `curl` استفاده کنید:
+```bash
+curl http://localhost
+```
+
+خروجی باید شامل HTML صفحه پیش‌فرض Nginx باشد.
+
+### فعال‌سازی ماژول stub_status در Nginx
+
+برای استفاده از Nginx Exporter، باید ماژول `http_stub_status_module` در Nginx فعال باشد.
+این ماژول به طور پیش‌فرض در بسیاری از نسخه‌های Nginx وجود دارد، اما باید آن را در فایل پیکربندی فعال کنید.
 
 1. فایل پیکربندی Nginx را باز کنید (معمولاً در `/etc/nginx/nginx.conf` یا `/etc/nginx/conf.d/`):
    ```bash
@@ -90,7 +145,7 @@
 
 3. فایل باینری را به دایرکتوری مناسب منتقل کنید:
    ```bash
-   sudo mv nginx-prometheus-exporter /usr/local/bin/
+   sudo mv nginx-prometheus-exporter /usr/bin/
    ```
 
 ### قدم ۳: ایجاد کاربر و دایرکتوری برای Nginx Exporter
@@ -121,7 +176,7 @@
    [Service]
    User=nginx_exporter
    Group=nginx_exporter
-   ExecStart=/usr/local/bin/nginx-prometheus-exporter -nginx.scrape-uri=http://localhost:8080/stub_status
+   ExecStart=/usr/bin/nginx-prometheus-exporter -nginx.scrape-uri=http://localhost:8080/stub_status
    Restart=always
 
    [Install]
@@ -160,7 +215,8 @@
    ```
 
 4. بررسی کنید که معیارها از Nginx Exporter جمع‌آوری می‌شوند:
-   - به رابط کاربری Prometheus (معمولاً `http://<prometheus-server>:9090`) بروید و در بخش `Status > Targets` بررسی کنید که job مربوط به Nginx در حالت `UP` باشد.
+   - به رابط کاربری Prometheus (معمولاً `http://<prometheus-server>:9090`) بروید 
+   - در بخش `Status > Targets` بررسی کنید که job مربوط به Nginx در حالت `UP` باشد.
 
 ### نکات کلیدی برای Nginx Exporter
 - **امنیت**: حتماً دسترسی به endpoint `stub_status` را محدود کنید (مثلاً فقط از localhost).
