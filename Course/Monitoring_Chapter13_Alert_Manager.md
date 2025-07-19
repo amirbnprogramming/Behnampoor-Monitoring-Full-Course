@@ -386,36 +386,36 @@ sudo apt install prometheus-alertmanager
    WantedBy=multi-user.target
    ```
 
-3. **اعمال تغییرات و راه‌اندازی سرویس**:
+**اعمال تغییرات و راه‌اندازی سرویس**:
    ```bash
    sudo systemctl daemon-reload
    sudo systemctl enable alertmanager
    sudo systemctl start alertmanager
    ```
 
-4. **بررسی وضعیت سرویس**:
+**بررسی وضعیت سرویس**:
    ```bash
    sudo systemctl status alertmanager
    ```
 
-5. **دسترسی به رابط کاربری Alertmanager**:
+**دسترسی به رابط کاربری Alertmanager**:
    مرورگر خود را باز کنید و به آدرس `http://<server-ip>:9093` بروید. باید رابط کاربری وب Alertmanager را مشاهده کنید.
 
 ---
 
 ## مرحله ۶: تست و عیب‌یابی
 
-1. **تست ارسال هشدار**:
+**تست ارسال هشدار**:
    - یک قانون هشدار در فایل `alert.rules.yml` تعریف کنید که به‌راحتی فعال شود (مثلاً بررسی استفاده از CPU).
    - بررسی کنید که هشدار به گیرنده‌های تعریف‌شده (مانند ایمیل یا Slack) ارسال می‌شود.
 
-2. **بررسی لاگ‌ها**:
+**بررسی لاگ‌ها**:
    لاگ‌های Alertmanager را برای عیب‌یابی بررسی کنید:
    ```bash
    journalctl -u alertmanager.service
    ```
 
-3. **تست با amtool**:
+**تست با amtool**:
    از ابزار `amtool` برای ارسال یک هشدار آزمایشی استفاده کنید:
    ```bash
    amtool alert add alertname=TestAlert severity=critical
