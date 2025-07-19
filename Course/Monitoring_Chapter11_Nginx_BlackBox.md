@@ -110,12 +110,12 @@ Commercial support is available at
 - این ماژول به طور پیش‌فرض در بسیاری از نسخه‌های Nginx وجود دارد، اما باید آن را در فایل پیکربندی فعال کنید.
 ---
 
-1. فایل پیکربندی Nginx را باز کنید (معمولاً در `/etc/nginx/nginx.conf` یا `/etc/nginx/conf.d/`):
+ فایل پیکربندی Nginx را باز کنید (معمولاً در `/etc/nginx/nginx.conf` یا `/etc/nginx/conf.d/`):
    ```bash
    sudo nano /etc/nginx/conf.d/stub_status.conf
    ```
 
-2. یک بلوک `server` برای stub_status اضافه کنید:
+ یک بلوک `server` برای stub_status اضافه کنید:
    ```nginx
    server {
        listen 8080;
@@ -128,21 +128,21 @@ Commercial support is available at
    }
    ```
 
-3. بررسی کنید که فایل پیکربندی درست باشد:
+ بررسی کنید که فایل پیکربندی درست باشد:
    ```bash
    sudo nginx -t
    ```
 
-4.سرویس Nginx را ری‌استارت کنید:
+ سرویس Nginx را ری‌استارت کنید:
    ```bash
    sudo systemctl restart nginx
    ```
 
-5. بررسی کنید که stub_status کار می‌کند:
+ بررسی کنید که stub_status کار می‌کند:
    ```bash
    curl http://localhost:8080/stub_status
    ```
-   خروجی باید چیزی شبیه این باشد:
+ خروجی باید چیزی شبیه این باشد:
    ```
    Active connections: 1
    server accepts handled requests
@@ -152,22 +152,22 @@ Commercial support is available at
 
 ### قدم ۲: نصب Nginx Exporter
 
-1. ابتدا دایرکتوری موقت برای دانلود فایل فشرده ی مدنظر ایجاد میکنیم و به آن مسیر میرویم:
+ ابتدا دایرکتوری موقت برای دانلود فایل فشرده ی مدنظر ایجاد میکنیم و به آن مسیر میرویم:
 
    ```bash
    mkdir -p /tmp/nginx_exporter_tmp && cd /tmp/nginx_exporter_tmp
    ```
-2. فایل باینری Nginx Exporter را از مخزن رسمی دانلود کنید
+ فایل باینری Nginx Exporter را از مخزن رسمی دانلود کنید
    ```bash
    wget https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v1.2.0/nginx-prometheus-exporter_1.2.0_linux_amd64.tar.gz
    ```
 
-3. فایل را از حالت فشرده خارج کنید:
+ فایل را از حالت فشرده خارج کنید:
    ```bash
    tar -xzf nginx-prometheus-exporter_0.11.0_linux_amd64.tar.gz
    ```
 
-4. فایل باینری را به دایرکتوری مناسب منتقل کنید:
+ فایل باینری را به دایرکتوری مناسب منتقل کنید:
    ```bash
    sudo mv nginx-prometheus-exporter /usr/bin/
    ```
