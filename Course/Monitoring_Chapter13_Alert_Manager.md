@@ -454,38 +454,6 @@ helm install alertmanager prometheus-community/alertmanager
 
 ---
 
-## 6. تعریف قوانین هشدار (Prometheus Rules)
-
-قوانین هشدار در پرومتئوس از طریق **PrometheusRule CRD** تعریف می‌شوند. این قوانین شامل شرایطی هستند که وقتی برقرار شوند، هشدار تولید می‌شود.
-
-### 6.1 ساختار یک PrometheusRule
-```yaml
-apiVersion: monitoring.coreos.com/v1
-kind: PrometheusRule
-metadata:
-  name: trivy-alerts
-  namespace: monitoring
-  labels:
-    prometheus: example
-spec:
-  groups:
-  - name: trivy
-    rules:
-    - alert: TrivyNewCriticalVulnerability
-      expr: trivy_vulnerability_critical_count{namespace="test"} > 0
-      for: 30s
-      labels:
-        severity: critical
-      annotations:
-        summary: "New critical vulnerability detected"
-        description: "A critical vulnerability was found in {{ $labels.namespace }} namespace."
-```
-
-**توضیحات:**
- `قسمت expr`: عبارت PromQL که شرط هشدار را تعریف می‌کند.
- `قسمت for`: مدت زمانی که شرط باید برقرار باشد تا هشدار به حالت Firing برود.
- `قسمت labels`: برچسب‌هایی که به هشدار اضافه می‌شوند (مثل `severity`).
- `قسمت annotations`: اطلاعات اضافی مثل توضیحات یا لینک به Runbook.
 
 ### 6.2 مفهوم Matchers در Alertmanager
 باید در نظر گرفت که ** Matchers** در Alertmanager برای فیلتر کردن و هدایت هشدارها استفاده می‌شوند.
@@ -505,15 +473,16 @@ route:
 ```
 
 **توضیحات:**
- `سازو کار match`: هشدارهایی که دقیقاً `severity=critical` دارند به این مسیر هدایت می‌شوند.
- `سازو کار match_re`: هشدارهایی که نام فضای کاری (namespace) آن‌ها با `test` شروع می‌شود.
+
+ - `سازو کار match`: هشدارهایی که دقیقاً `severity=critical` دارند به این مسیر هدایت می‌شوند.
+ - `سازو کار match_re`: هشدارهایی که نام فضای کاری (namespace) آن‌ها با `test` شروع می‌شود.
 
 ---
 
 ## 7. حالات Pending و Firing
 
- **مرحله Pending**: وقتی شرط یک هشدار برقرار می‌شود، ابتدا به حالت Pending می‌رود. در این حالت، پرومتئوس منتظر می‌ماند تا شرط به مدت زمان مشخصی (تعریف‌شده در `for`) برقرار بماند.
- **مرحله Firing**: اگر شرط برای مدت زمان مشخص برقرار بماند، هشدار به حالت Firing می‌رود و به Alertmanager ارسال می‌شود.
+ - **مرحله Pending**: وقتی شرط یک هشدار برقرار می‌شود، ابتدا به حالت Pending می‌رود. در این حالت، پرومتئوس منتظر می‌ماند تا شرط به مدت زمان مشخصی (تعریف‌شده در `for`) برقرار بماند.
+ - **مرحله Firing**: اگر شرط برای مدت زمان مشخص برقرار بماند، هشدار به حالت Firing می‌رود و به Alertmanager ارسال می‌شود.
 
 **چرا این دو حالت؟**
 این مکانیزم از ارسال هشدارهای لحظه‌ای و ناپایدار (مثلاً به دلیل نوسانات موقتی) جلوگیری می‌کند.
