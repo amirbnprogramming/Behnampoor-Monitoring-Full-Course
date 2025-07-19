@@ -221,55 +221,13 @@ Commercial support is available at
    sudo systemctl status nginx-exporter
    ```
 
-5. چک میکنیم ببینم endpoint این اکسپورتر درست کار میکند یا نه :
+5. در مرورگر یا ترمینال چک میکنیم ببینم endpoint این اکسپورتر درست کار میکند یا نه :
    ```bash
    sudo curl 127.0.0.1:9113
    ```
    خروجی باید چیزی شبیه به زیر باشد :
-   <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NGINX Prometheus Exporter</title>
-    <style>body {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,Liberation Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
-  margin: 0;
-}
-header {
-  background-color: #039900;
-  color: #fff;
-  font-size: 1rem;
-  padding: 1rem;
-}
-main {
-  padding: 1rem;
-}
-label {
-  display: inline-block;
-  width: 0.5em;
-}
+   <img width="1274" height="436" alt="image" src="https://github.com/user-attachments/assets/a4ea5c68-b0f0-4037-b30e-3296a4eb53f9" />
 
-</style>
-  </head>
-  <body>
-    <header>
-      <h1>NGINX Prometheus Exporter</h1>
-    </header>
-    <main>
-      <h2>Prometheus Exporter for NGINX and NGINX Plus</h2>
-      <div>Version: (version=1.2.0, branch=HEAD, revision=d3f9f94934c8a90de58ca264ee531a7648b2bb2b)</div>
-      <div>
-        <ul>
-
-          <li><a href="/metrics">Metrics</a></li>
-
-        </ul>
-      </div>
-
-
-    </main>
-  </body>
-</html>
 
   
 
@@ -294,8 +252,12 @@ label {
    ```
 
 4. بررسی کنید که معیارها از Nginx Exporter جمع‌آوری می‌شوند:
-   - به رابط کاربری Prometheus (معمولاً `http://<prometheus-server>:9090`) بروید 
-   - در بخش `Status > Targets` بررسی کنید که job مربوط به Nginx در حالت `UP` باشد.
+   
+- به رابط کاربری Prometheus (معمولاً `http://<prometheus-server>:9090`) بروید 
+- در بخش `Status > Targets` بررسی کنید که job مربوط به Nginx در حالت `UP` باشد.
+
+  <img width="1262" height="154" alt="image" src="https://github.com/user-attachments/assets/621131a3-f90c-4085-8bfc-da9dae5a213f" />
+
 
 ### نکات کلیدی برای Nginx Exporter
 - **امنیت**: حتماً دسترسی به endpoint `stub_status` را محدود کنید (مثلاً فقط از localhost).
