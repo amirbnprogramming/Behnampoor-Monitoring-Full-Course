@@ -174,24 +174,24 @@ Commercial support is available at
 
 ### قدم ۳: ایجاد کاربر و دایرکتوری برای Nginx Exporter
 برای امنیت بیشتر، Nginx Exporter را با یک کاربر غیر روت اجرا می‌کنیم:
-1. کاربر جدید ایجاد کنید:
+ کاربر جدید ایجاد کنید:
    ```bash
    sudo useradd -rs /bin/false nginx_exporter
    ```
 
-2. دایرکتوری برای ذخیره لاگ‌ها و فایل‌های پیکربندی:
+ دایرکتوری برای ذخیره لاگ‌ها و فایل‌های پیکربندی:
    ```bash
    sudo mkdir /etc/nginx_exporter
    sudo chown nginx_exporter:nginx_exporter /etc/nginx_exporter
    ```
 
 ### قدم ۴: پیکربندی سرویس سیستم برای Nginx Exporter
-1. فایل سرویس سیستم را ایجاد کنید:
+ فایل سرویس سیستم را ایجاد کنید:
    ```bash
    sudo nano /etc/systemd/system/nginx-exporter.service
    ```
 
-2. محتوای زیر را اضافه کنید:
+ محتوای زیر را اضافه کنید:
    ```ini
    [Unit]
    Description=Nginx Prometheus Exporter
@@ -207,23 +207,23 @@ Commercial support is available at
    WantedBy=multi-user.target
    ```
 
-3. سرویس را فعال کنید و اجرا کنید:
+ سرویس را فعال کنید و اجرا کنید:
    ```bash
    sudo systemctl daemon-reload
    sudo systemctl enable nginx-exporter
    sudo systemctl start nginx-exporter
    ```
 
-4. بررسی کنید که سرویس در حال اجراست:
+ بررسی کنید که سرویس در حال اجراست:
    ```bash
    sudo systemctl status nginx-exporter
    ```
 
-5. در مرورگر یا ترمینال چک میکنیم ببینم endpoint این اکسپورتر درست کار میکند یا نه :
+ در مرورگر یا ترمینال چک میکنیم ببینم endpoint این اکسپورتر درست کار میکند یا نه :
    ```bash
    sudo curl 127.0.0.1:9113
    ```
-   خروجی باید چیزی شبیه به زیر باشد :
+ خروجی باید چیزی شبیه به زیر باشد :
    <img width="1274" height="436" alt="image" src="https://github.com/user-attachments/assets/a4ea5c68-b0f0-4037-b30e-3296a4eb53f9" />
 
 
@@ -231,12 +231,12 @@ Commercial support is available at
 
 
 ### قدم ۵: اضافه کردن Nginx Exporter به Prometheus
-1. فایل پیکربندی Prometheus را باز کنید (معمولاً در `/etc/prometheus/prometheus.yml`):
+ فایل پیکربندی Prometheus را باز کنید (معمولاً در `/etc/prometheus/prometheus.yml`):
    ```bash
    sudo nano /etc/prometheus/prometheus.yml
    ```
 
-2. یک job جدید برای Nginx Exporter اضافه کنید:
+ یک job جدید برای Nginx Exporter اضافه کنید:
    ```yaml
    scrape_configs:
      - job_name: 'nginx'
@@ -249,7 +249,7 @@ Commercial support is available at
    sudo systemctl restart prometheus
    ```
 
-4. بررسی کنید که معیارها از Nginx Exporter جمع‌آوری می‌شوند:
+ بررسی کنید که معیارها از Nginx Exporter جمع‌آوری می‌شوند:
    
 - به رابط کاربری Prometheus (معمولاً `http://<prometheus-server>:9090`) بروید 
 - در بخش `Status > Targets` بررسی کنید که job مربوط به Nginx در حالت `UP` باشد.
@@ -283,45 +283,45 @@ Commercial support is available at
 ## بخش چهارم: نصب و پیکربندی Blackbox Exporter
 
 ### قدم ۱: دانلود و نصب Blackbox Exporter
-1. فایل باینری Blackbox Exporter را دانلود کنید:
+ فایل باینری Blackbox Exporter را دانلود کنید:
    ```bash
    wget https://github.com/prometheus/blackbox_exporter/releases/download/v0.24.0/blackbox_exporter-0.24.0.linux-amd64.tar.gz
    ```
 
-2. فایل را از حالت فشرده خارج کنید:
+ فایل را از حالت فشرده خارج کنید:
    ```bash
    tar -xzf blackbox_exporter-0.24.0.linux-amd64.tar.gz
    ```
 
-3. فایل باینری را به دایرکتوری مناسب منتقل کنید:
+ فایل باینری را به دایرکتوری مناسب منتقل کنید:
    ```bash
    sudo mv blackbox_exporter-0.24.0.linux-amd64/blackbox_exporter /usr/local/bin/
    ```
 
 ### قدم ۲: ایجاد کاربر و دایرکتوری
-1. کاربر جدید ایجاد کنید:
+ کاربر جدید ایجاد کنید:
    ```bash
    sudo useradd -rs /bin/false blackbox_exporter
    ```
 
-2. دایرکتوری برای ذخیره فایل‌های پیکربندی:
+ دایرکتوری برای ذخیره فایل‌های پیکربندی:
    ```bash
    sudo mkdir /etc/blackbox_exporter
    sudo chown blackbox_exporter:blackbox_exporter /etc/blackbox_exporter
    ```
 
-3. فایل پیکربندی پیش‌فرض Blackbox Exporter را کپی کنید:
+ فایل پیکربندی پیش‌فرض Blackbox Exporter را کپی کنید:
    ```bash
    sudo mv blackbox_exporter-0.24.0.linux-amd64/config.yml /etc/blackbox_exporter/blackbox.yml
    ```
 
 ### قدم ۳: پیکربندی Blackbox Exporter
-1. فایل پیکربندی Blackbox Exporter را باز کنید:
+ فایل پیکربندی Blackbox Exporter را باز کنید:
    ```bash
    sudo nano /etc/blackbox_exporter/blackbox.yml
    ```
 
-2. یک نمونه پیکربندی برای مانیتورینگ HTTP اضافه کنید:
+ یک نمونه پیکربندی برای مانیتورینگ HTTP اضافه کنید:
    ```yaml
    modules:
      http_2xx:
@@ -344,18 +344,18 @@ Commercial support is available at
    - `http_2xx`: بررسی می‌کند که آیا پاسخ HTTP کد 200 را برمی‌گرداند.
    - `ssl_check`: بررسی وضعیت گواهینامه SSL.
 
-3. فایل را ذخیره کنید و دسترسی‌ها را تنظیم کنید:
+ فایل را ذخیره کنید و دسترسی‌ها را تنظیم کنید:
    ```bash
    sudo chown blackbox_exporter:blackbox_exporter /etc/blackbox_exporter/blackbox.yml
    ```
 
 ### قدم ۴: ایجاد سرویس سیستم برای Blackbox Exporter
-1. فایل سرویس را ایجاد کنید:
+ فایل سرویس را ایجاد کنید:
    ```bash
    sudo nano /etc/systemd/system/blackbox-exporter.service
    ```
 
-2. محتوای زیر را اضافه کنید:
+ محتوای زیر را اضافه کنید:
    ```ini
    [Unit]
    Description=Blackbox Exporter
@@ -371,25 +371,25 @@ Commercial support is available at
    WantedBy=multi-user.target
    ```
 
-3. سرویس را فعال کنید و اجرا کنید:
+ سرویس را فعال کنید و اجرا کنید:
    ```bash
    sudo systemctl daemon-reload
    sudo systemctl enable blackbox-exporter
    sudo systemctl start blackbox-exporter
    ```
 
-4. بررسی کنید که سرویس در حال اجراست:
+ بررسی کنید که سرویس در حال اجراست:
    ```bash
    sudo systemctl status blackbox-exporter
    ```
 
 ### قدم ۵: اضافه کردن Blackbox Exporter به Prometheus
-1. فایل پیکربندی Prometheus را باز کنید:
+ فایل پیکربندی Prometheus را باز کنید:
    ```bash
    sudo nano /etc/prometheus/prometheus.yml
    ```
 
-2. یک job جدید برای Blackbox Exporter اضافه کنید:
+ یک job جدید برای Blackbox Exporter اضافه کنید:
    ```yaml
    scrape_configs:
      - job_name: 'blackbox'
@@ -409,12 +409,12 @@ Commercial support is available at
            replacement: localhost:9115  # آدرس Blackbox Exporter
    ```
 
-3. مرحله بعدی Prometheus را ری‌استارت کنید:
+ مرحله بعدی Prometheus را ری‌استارت کنید:
    ```bash
    sudo systemctl restart prometheus
    ```
 
-4. بررسی کنید که معیارها جمع‌آوری می‌شوند:
+ بررسی کنید که معیارها جمع‌آوری می‌شوند:
    - به رابط کاربری Prometheus بروید و در بخش `Status > Targets` بررسی کنید که job مربوط به Blackbox در حالت `UP` باشد.
 
 ### نکات کلیدی برای Blackbox Exporter
