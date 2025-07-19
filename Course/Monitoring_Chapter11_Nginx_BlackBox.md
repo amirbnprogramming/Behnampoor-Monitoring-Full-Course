@@ -467,6 +467,11 @@ Commercial support is available at
    این کوئری نشان می‌دهد که آیا endpointها در دسترس هستند یا خیر.
 3. برای داشبوردهای آماده، داشبورد رسمی Blackbox Exporter (ID: 7587) را از [Grafana Labs](https://grafana.com/grafana/dashboards/7587) وارد کنید.
 
+تصاویر نهایی داشبورد های nginx و blackbox:
+   <img width="1263" height="847" alt="image" src="https://github.com/user-attachments/assets/231c96ee-a5cd-4476-8e6a-ca3502663c97" />
+
+   <img width="1268" height="830" alt="image" src="https://github.com/user-attachments/assets/4bcf7f88-6159-466a-9990-72cb8939391a" />
+
 ### نکات برای Grafana
 - **شخصی‌سازی داشبورد**: از متغیرها (Variables) در Grafana برای فیلتر کردن داده‌ها بر اساس instance یا job استفاده کنید.
 - **هشدارها**: می‌توانید هشدارهایی برای معیارهای خاص (مانند قطعی endpoint یا افزایش خطاهای Nginx) تنظیم کنید.
