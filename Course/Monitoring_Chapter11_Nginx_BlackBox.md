@@ -153,23 +153,29 @@ Commercial support is available at
    ```
 
 ### قدم ۲: نصب Nginx Exporter
-1. فایل باینری Nginx Exporter را از مخزن رسمی دانلود کنید:
+
+1. ابتدا دایرکتوری موقت برای دانلود فایل فشرده ی مدنظر ایجاد میکنیم و به آن مسیر میرویم:
+
    ```bash
-   wget https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v0.11.0/nginx-prometheus-exporter_0.11.0_linux_amd64.tar.gz
+   mkdir -p /tmp/nginx_exporter_tmp && cd /tmp/nginx_exporter_tmp
+   ```
+2. فایل باینری Nginx Exporter را از مخزن رسمی دانلود کنید
+   ```bash
+   wget https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v1.2.0/nginx-prometheus-exporter_1.2.0_linux_amd64.tar.gz
    ```
 
-2. فایل را از حالت فشرده خارج کنید:
+3. فایل را از حالت فشرده خارج کنید:
    ```bash
    tar -xzf nginx-prometheus-exporter_0.11.0_linux_amd64.tar.gz
    ```
 
-3. فایل باینری را به دایرکتوری مناسب منتقل کنید:
+4. فایل باینری را به دایرکتوری مناسب منتقل کنید:
    ```bash
    sudo mv nginx-prometheus-exporter /usr/bin/
    ```
 
 ### قدم ۳: ایجاد کاربر و دایرکتوری برای Nginx Exporter
-برای امنیت بیشتر، Nginx Exporter را با یک کاربر غیرروت اجرا می‌کنیم:
+برای امنیت بیشتر، Nginx Exporter را با یک کاربر غیر روت اجرا می‌کنیم:
 1. کاربر جدید ایجاد کنید:
    ```bash
    sudo useradd -rs /bin/false nginx_exporter
