@@ -162,7 +162,7 @@
 پکیج Alertmanager را می‌توان از طریق روش‌های مختلفی نصب کرد. در اینجا ابتدا روش دانلود با **wget** توضیح داده می‌شود و سپس روش‌های جایگزین معرفی می‌شوند.
 
 ### روش ۱: دانلود و نصب با استفاده از wget
-1. **دانلود آخرین نسخه Alertmanager**:
+ **دانلود آخرین نسخه Alertmanager**:
    - به صفحه انتشارات رسمی Prometheus در GitHub مراجعه کنید تا آخرین نسخه را بیابید: [https://github.com/prometheus/alertmanager/releases](https://github.com/prometheus/alertmanager/releases).
    - فرض کنید آخرین نسخه 0.28.1 است (این نسخه را با نسخه فعلی جایگزین کنید).
    - دستور زیر را برای دانلود اجرا کنید:
@@ -172,19 +172,19 @@
      wget https://github.com/prometheus/alertmanager/releases/download/v0.28.1/alertmanager-0.28.1.linux-amd64.tar.gz
      ```
 
-2. **استخراج فایل دانلودشده**:
+ **استخراج فایل دانلودشده**:
    ```bash
    tar -xvzf alertmanager-0.27.0.linux-amd64.tar.gz
    ```
 
-3. **انتقال فایل‌های باینری**:
+ **انتقال فایل‌های باینری**:
    فایل‌های اجرایی `alertmanager` و `amtool` را به مسیر مناسب منتقل کنید:
    ```bash
    mv alertmanager-0.27.0.linux-amd64/alertmanager /usr/bin/
    mv alertmanager-0.27.0.linux-amd64/amtool /usr/bin/
    ```
 
-4. **اعطای دسترسی مناسب به فایل‌ها**:
+ **اعطای دسترسی مناسب به فایل‌ها**:
    ```bash
    sudo chown alertmanager:alertmanager /usr/bin/alertmanager
    sudo chown alertmanager:alertmanager /usr/bin/amtool
@@ -192,7 +192,7 @@
    sudo chmod +x /usr/bin/amtool
    ```
 
-5. **بررسی نصب**:
+ **بررسی نصب**:
    برای اطمینان از نصب صحیح، نسخه Alertmanager را بررسی کنید:
    ```bash
    alertmanager --version
