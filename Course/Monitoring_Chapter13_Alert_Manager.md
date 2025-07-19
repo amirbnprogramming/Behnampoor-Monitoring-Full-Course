@@ -457,6 +457,12 @@ helm install alertmanager prometheus-community/alertmanager
 
 ### 6.2 مفهوم Matchers در Alertmanager
 باید در نظر گرفت که ** Matchers** در Alertmanager برای فیلتر کردن و هدایت هشدارها استفاده می‌شوند.
+در واقع بررسی میکند هشداری که بوجود آمده(بر اساس alert_rules.yml ) لیبلش چیست؟ تطابقش چگونه است تا ارسال شود به مسیر مدنظر.
+
+**مفهوم Route (مسیر)**
+مثل یک "نقشه راه" برای هشدارها عمل می‌کنه. مشخص می‌کنه که هر هشدار کجا بره و به کی تحویل داده بشه.
+مثلاً می‌تونی بگی: «اگر هشداری با برچسب severity=critical اومد، برو به کانال Slack و به تیم DevOps خبر بده.
+
 سه نوع Matcher داریم:
  - **مدل match**: تطبیق دقیق با یک مقدار (مثلاً `severity=critical`).
  - **مدل match_re**: تطبیق با استفاده از Regular Expression (مثلاً `severity=~critical|warning`).
