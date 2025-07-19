@@ -348,7 +348,7 @@ sudo apt install prometheus-alertmanager
 
 **بررسی صحت فایل prometheus.yml**:
    ```bash
-   promtool check-config /etc/prometheus/prometheus.yml
+   promtool check config /etc/prometheus/prometheus.yml
    ```
 
 برای اعمال تغییرات، سرویس Prometheus را ری‌استارت کنید:
