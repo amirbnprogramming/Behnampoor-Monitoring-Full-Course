@@ -174,14 +174,14 @@
 
  **استخراج فایل دانلودشده**:
    ```bash
-   tar -xvzf alertmanager-0.27.0.linux-amd64.tar.gz
+   tar -xvzf alertmanager-0.28.1.linux-amd64.tar.gz
    ```
 
  **انتقال فایل‌های باینری**:
    فایل‌های اجرایی `alertmanager` و `amtool` را به مسیر مناسب منتقل کنید:
    ```bash
-   mv alertmanager-0.27.0.linux-amd64/alertmanager /usr/bin/
-   mv alertmanager-0.27.0.linux-amd64/amtool /usr/bin/
+   mv alertmanager-0.28.1.linux-amd64/alertmanager /usr/bin/
+   mv alertmanager-0.28.1.linux-amd64/amtool /usr/bin/
    ```
 
  **اعطای دسترسی مناسب به فایل‌ها**:
@@ -418,7 +418,7 @@ sudo apt install prometheus-alertmanager
 ### ۱. استفاده از curl به‌جای wget
 به‌جای `wget` می‌توانید از `curl` استفاده کنید:
 ```bash
-curl -LO https://github.com/prometheus/alertmanager/releases/download/v0.27.0/alertmanager-0.27.0.linux-amd64.tar.gz
+curl -LO https://github.com/prometheus/alertmanager/releases/download/v0.27.0/alertmanager-0.28.1.linux-amd64.tar.gz
 ```
 
 ### ۲. استفاده از مخازن بسته
