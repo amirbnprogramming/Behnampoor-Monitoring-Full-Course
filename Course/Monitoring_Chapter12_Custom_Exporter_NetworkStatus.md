@@ -53,6 +53,11 @@ cd ~/network_exporter
 - `network_exporter.py`: اسکریپت اصلی اکسپورتر.
 - `prometheus.yml`: فایل تنظیمات پرومتئوس (در صورت نیاز به ویرایش).
 - `requirements.txt`: برای نصب وابستگی‌ها.
+  ساخت یوزر خاص جدید و دسترسی به دایرکتوری :
+```bash
+sudo useradd --system --no-create-home --shell /usr/sbin/nologin networkuser
+sudo chown networkuser:networkuser [Python Files]
+```
 
 ## مرحله ۲: نوشتن اسکریپت اکسپورتر
 
@@ -148,6 +153,9 @@ sudo apt install prometheus
 
 ### ویرایش فایل تنظیمات پرومتئوس
 فایل تنظیمات پرومتئوس (معمولاً در `/etc/prometheus/prometheus.yml`) را ویرایش کنید تا اکسپورتر جدید را شناسایی کند:
+```bash
+sudo nano /etc/prometheus/prometheus.yml
+```
 
 ```yaml
 global:
@@ -196,17 +204,23 @@ sudo systemctl enable grafana-server
 1. به **Create > Dashboard** بروید و یک پنل جدید اضافه کنید.
 2. در بخش **Query**، منبع داده را به پرومتئوس تنظیم کنید.
 3. متریک‌های زیر را برای نمایش اضافه کنید:
+   
    - **حجم داده ارسالی**: `network_bytes_sent_total{interface="eth0"}`
    - **حجم داده دریافتی**: `network_bytes_received_total{interface="eth0"}`
    - **سرعت ارسال**: `network_speed_sent_bytes_per_second{interface="eth0"}`
    - **سرعت دریافت**: `network_speed_received_bytes_per_second{interface="eth0"}`
+     
    - (جای `eth0` را با نام کارت شبکه خود جایگزین کنید، مثلاً `wlan0`).
+     
 4. نوع نمایش را به **Graph** یا **Time Series** تنظیم کنید.
+   
 5. برای زیباتر شدن داشبورد:
    - از **Unit** مناسب استفاده کنید (مثلاً `bytes` برای حجم و `bytes/sec` برای سرعت).
    - رنگ‌ها و لیبل‌ها را سفارشی کنید.
    - چندین پنل برای هر کارت شبکه ایجاد کنید.
-6. داشبورد را ذخیره کنید.
+   - 
+6. داشبورد را ذخیره کنید ، نتیجه داشبورد:
+<img width="1257" height="1218" alt="image" src="https://github.com/user-attachments/assets/2dcf462e-afa3-4d88-996c-81d06c3bd3a1" />
 
 ### نکات برای نمایش بهینه در گرافانا
 - **فیلتر کردن کارت‌های شبکه**: از متغیر (Variable) در گرافانا استفاده کنید تا کاربران بتوانند کارت شبکه مورد نظر را انتخاب کنند. برای این کار:
@@ -241,9 +255,10 @@ Description=Network Exporter Service
 After=network.target
 
 [Service]
-User=$USER
-WorkingDirectory=/home/$USER/network_exporter
-ExecStart=/usr/bin/python3 /home/$USER/network_exporter/network_exporter.py
+User=networkuser
+Group=networkuser
+WorkingDirectory=[Python Files]
+ExecStart=[Python Files]/venv/bin/python3 [Python Files]/network_exporter.py
 Restart=always
 
 [Install]
@@ -271,6 +286,7 @@ sudo ufw allow from 127.0.0.1 to any port 8000
 - **دیباگینگ**: برای بررسی متریک‌ها، به آدرس `http://localhost:8000` بروید و خروجی متریک‌ها را مشاهده کنید.
 
 ## نتیجه‌گیری
-با این آموزش، شما یک اکسپورتر شخصی‌سازی شده برای مانیتورینگ کارت شبکه ساختید که متریک‌های حجم و سرعت داده را جمع‌آوری می‌کند. این متریک‌ها در پرومتئوس ذخیره شده و در گرافانا به صورت داشبوردهای حرفه‌ای نمایش داده می‌شوند. با تنظیم متغیرها و قالب‌های گرافانا، می‌توانید تجربه کاربری بهتری ایجاد کنید.
+با این آموزش، شما یک اکسپورتر شخصی‌سازی شده برای مانیتورینگ کارت شبکه ساختید که متریک‌های حجم و سرعت داده را جمع‌آوری می‌کند.
+این متریک‌ها در پرومتئوس ذخیره شده و در گرافانا به صورت داشبوردهای حرفه‌ای نمایش داده می‌شوند. با تنظیم متغیرها و قالب‌های گرافانا، می‌توانید تجربه کاربری بهتری ایجاد کنید.
 
 برای گسترش این پروژه، می‌توانید متریک‌های دیگری مانند تعداد پکت‌ها یا خطاهای شبکه را اضافه کنید یا داشبوردهای پیچیده‌تری بسازید.
