@@ -414,10 +414,11 @@ Commercial support is available at
    ```bash
    sudo systemctl restart prometheus
    ```
+   <img width="1260" alt="image" src="https://github.com/user-attachments/assets/654ca598-3464-4436-865d-d380c09e2b3f" />
 
-   <img width="1267" height="1044" alt="image" src="https://github.com/user-attachments/assets/b5551f4b-5823-450d-8b9f-846edb69e024" />
+   <img width="1260" alt="image" src="https://github.com/user-attachments/assets/b5551f4b-5823-450d-8b9f-846edb69e024" />
 
-   <img width="844" height="551" alt="image" src="https://github.com/user-attachments/assets/a9424f35-7406-44ea-b9cd-9be1f70f7fe6" />
+   <img width="1260" alt="image" src="https://github.com/user-attachments/assets/a9424f35-7406-44ea-b9cd-9be1f70f7fe6" />
 
 
 
