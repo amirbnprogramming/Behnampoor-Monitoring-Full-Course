@@ -1,5 +1,4 @@
-<img width="1263" height="847" alt="image" src="https://github.com/user-attachments/assets/21452823-731c-46c9-a9de-2e0c4f3a1916" />
-# آموزش قدم به قدم Nginx Exporter و Blackbox Exporter برای Prometheus و Grafana
+# آموزش مانیتورینگ : قسمت یازدهم Nginx Exporter و Blackbox Exporter برای Prometheus و Grafana
 
 ## مقدمه
 در دنیای مانیتورینگ، **Prometheus** به عنوان یک ابزار متن‌باز قدرتمند برای جمع‌آوری و ذخیره‌سازی معیارهای سری زمانی شناخته می‌شود.
