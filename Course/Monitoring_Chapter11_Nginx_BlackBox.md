@@ -55,7 +55,7 @@ sudo apt update && sudo apt upgrade -y
 ```
 
 #### نصب بسته Nginx
-Nginx در مخازن پیش‌فرض Ubuntu موجود است. برای نصب آن، دستور زیر را اجرا کنید:
+وب سرور Nginx در مخازن پیش‌فرض Ubuntu موجود است. برای نصب آن، دستور زیر را اجرا کنید:
 ```bash
 sudo apt install nginx -y
 ```
