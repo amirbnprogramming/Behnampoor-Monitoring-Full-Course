@@ -229,13 +229,13 @@ sudo apt install prometheus-alertmanager
 پکیج Alertmanager از یک فایل پیکربندی به نام `alertmanager.yml` استفاده می‌کند.
 این فایل شامل تنظیمات مربوط به نحوه مدیریت و ارسال هشدارها (مانند ایمیل، Slack، PagerDuty و غیره) است.
 
-1. **ایجاد فایل پیکربندی**:
+ **ایجاد فایل پیکربندی**:
    فایل پیکربندی را در مسیر `/etc/alertmanager/` ایجاد کنید:
    ```bash
    sudo nano /etc/alertmanager/alertmanager.yml
    ```
 
-2. **نمونه پیکربندی پایه**:
+ **نمونه پیکربندی پایه**:
    محتوای زیر را در فایل `alertmanager.yml` قرار دهید:
    ```yaml
    global:
