@@ -310,12 +310,12 @@ sudo apt install prometheus-alertmanager
 
 برای اینکه Prometheus هشدارها را به Alertmanager ارسال کند، باید فایل پیکربندی Prometheus (`prometheus.yml`) را ویرایش کنید.
 
-**ویرایش فایل prometheus.yml** ، فایل پیکربندی Prometheus را باز کنید (معمولاً در `/etc/prometheus/prometheus.yml`):
+فایل پیکربندی Prometheus را باز کنید (معمولاً در `/etc/prometheus/prometheus.yml`):
    ```bash
    sudo nano /etc/prometheus/prometheus.yml
    ```
 
-2. **اضافه کردن تنظیمات Alertmanager** ، بخش `alerting` را به فایل اضافه کنید:
+بخش `alerting` را به فایل اضافه کنید:
    ```yaml
    alerting:
      alertmanagers:
@@ -326,12 +326,12 @@ sudo apt install prometheus-alertmanager
      - "alert.rules.yml"
    ```
 
-3. **ایجاد فایل قوانین هشدار** ، یک فایل به نام `alert.rules.yml` در مسیر `/etc/prometheus/` ایجاد کنید:
+یک فایل به نام `alert.rules.yml` در مسیر `/etc/prometheus/` ایجاد کنید:
    ```bash
    sudo nano /etc/prometheus/alert.rules.yml
    ```
 
-   نمونه محتوای فایل:
+نمونه محتوای فایل:
    ```yaml
    groups:
    - name: example
@@ -351,7 +351,7 @@ sudo apt install prometheus-alertmanager
    promtool check-config /etc/prometheus/prometheus.yml
    ```
 
-**ری‌استارت Prometheus** ، برای اعمال تغییرات، سرویس Prometheus را ری‌استارت کنید:
+برای اعمال تغییرات، سرویس Prometheus را ری‌استارت کنید:
    ```bash
    sudo systemctl restart prometheus
    ```
