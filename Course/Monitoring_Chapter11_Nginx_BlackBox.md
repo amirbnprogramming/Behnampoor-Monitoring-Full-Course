@@ -481,49 +481,7 @@ Commercial support is available at
 
 ---
 
-## بخش ششم: مثال‌های کاربردی
-### مثال ۱: مانیتورینگ وب‌سایت با Blackbox Exporter
-فرض کنید می‌خواهید دسترسی‌پذیری وب‌سایت `https://example.com` را مانیتور کنید:
-1. در فایل `blackbox.yml`، ماژول زیر را اضافه کنید:
-   ```yaml
-   modules:
-     http_example:
-       prober: http
-       http:
-         valid_status_codes: [200, 301]
-         method: GET
-   ```
-2. در Prometheus، job زیر را اضافه کنید:
-   ```yaml
-   scrape_configs:
-     - job_name: 'example_website'
-       metrics_path: /probe
-       params:
-         module: [http_example]
-       static_configs:
-         - targets: ['https://example.com']
-       relabel_configs:
-         - source_labels: [__address__]
-           target_label: __param_target
-         - source_labels: [__param_target]
-           target_label: instance
-         - target_label: __address__
-           replacement: localhost:9115
-   ```
-3. در Grafana، یک پنل با کوئری `probe_success{instance="https://example.com"}` ایجاد کنید.
-
-### مثال ۲: مانیتورینگ خطاهای 5xx در Nginx
-برای نمایش تعداد خطاهای 5xx در Nginx:
-1. در Grafana، یک پنل جدید بسازید.
-2. کوئری زیر را وارد کنید:
-   ```promql
-   sum(rate(nginx_http_requests_total{status=~"5.."}[5m])) by (status)
-   ```
-   این کوئری نرخ خطاهای 5xx را در بازه ۵ دقیقه‌ای نمایش می‌دهد.
-
----
-
-## بخش هفتم: دسترسی‌ها و امنیت
+## بخش ششم : دسترسی‌ها و امنیت
 - **کاربران**:
   - از کاربران غیرروت (`nginx_exporter` و `blackbox_exporter`) برای اجرای سرویس‌ها استفاده کنید.
   - دسترسی‌های فایل‌ها و دایرکتوری‌ها را با `chown` و `chmod` محدود کنید.
@@ -539,7 +497,7 @@ Commercial support is available at
 
 ---
 
-## بخش هشتم: دایرکتوری‌ها و ساختار پیشنهادی
+## بخش هفتم : دایرکتوری‌ها و ساختار پیشنهادی
 - **Nginx Exporter**:
   - باینری: `/usr/bin/nginx-prometheus-exporter`
   - دایرکتوری پیکربندی: `/etc/nginx_exporter`
