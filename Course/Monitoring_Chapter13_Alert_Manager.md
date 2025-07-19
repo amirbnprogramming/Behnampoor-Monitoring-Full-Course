@@ -310,14 +310,12 @@ sudo apt install prometheus-alertmanager
 
 برای اینکه Prometheus هشدارها را به Alertmanager ارسال کند، باید فایل پیکربندی Prometheus (`prometheus.yml`) را ویرایش کنید.
 
-1. **ویرایش فایل prometheus.yml**:
-   فایل پیکربندی Prometheus را باز کنید (معمولاً در `/etc/prometheus/prometheus.yml`):
+**ویرایش فایل prometheus.yml** ، فایل پیکربندی Prometheus را باز کنید (معمولاً در `/etc/prometheus/prometheus.yml`):
    ```bash
    sudo nano /etc/prometheus/prometheus.yml
    ```
 
-2. **اضافه کردن تنظیمات Alertmanager**:
-   بخش `alerting` را به فایل اضافه کنید:
+2. **اضافه کردن تنظیمات Alertmanager** ، بخش `alerting` را به فایل اضافه کنید:
    ```yaml
    alerting:
      alertmanagers:
@@ -328,8 +326,7 @@ sudo apt install prometheus-alertmanager
      - "alert.rules.yml"
    ```
 
-3. **ایجاد فایل قوانین هشدار**:
-   یک فایل به نام `alert.rules.yml` در مسیر `/etc/prometheus/` ایجاد کنید:
+3. **ایجاد فایل قوانین هشدار** ، یک فایل به نام `alert.rules.yml` در مسیر `/etc/prometheus/` ایجاد کنید:
    ```bash
    sudo nano /etc/prometheus/alert.rules.yml
    ```
@@ -349,13 +346,12 @@ sudo apt install prometheus-alertmanager
          description: "{{ $labels.instance }} has disk usage above 95%."
    ```
 
-4. **بررسی صحت فایل prometheus.yml**:
+**بررسی صحت فایل prometheus.yml**:
    ```bash
    promtool check-config /etc/prometheus/prometheus.yml
    ```
 
-5. **ری‌استارت Prometheus**:
-   برای اعمال تغییرات، سرویس Prometheus را ری‌استارت کنید:
+**ری‌استارت Prometheus** ، برای اعمال تغییرات، سرویس Prometheus را ری‌استارت کنید:
    ```bash
    sudo systemctl restart prometheus
    ```
