@@ -458,9 +458,9 @@ helm install alertmanager prometheus-community/alertmanager
 ### 6.2 مفهوم Matchers در Alertmanager
 باید در نظر گرفت که ** Matchers** در Alertmanager برای فیلتر کردن و هدایت هشدارها استفاده می‌شوند.
 سه نوع Matcher داریم:
- **مدل match**: تطبیق دقیق با یک مقدار (مثلاً `severity=critical`).
- **مدل match_re**: تطبیق با استفاده از Regular Expression (مثلاً `severity=~critical|warning`).
- **مدل matchers**: ترکیبی از match و match_re برای نسخه‌های جدیدتر Alertmanager.
+ - **مدل match**: تطبیق دقیق با یک مقدار (مثلاً `severity=critical`).
+ - **مدل match_re**: تطبیق با استفاده از Regular Expression (مثلاً `severity=~critical|warning`).
+ - **مدل matchers**: ترکیبی از match و match_re برای نسخه‌های جدیدتر Alertmanager.
 
 #### مثال استفاده از Matchers:
 ```yaml
