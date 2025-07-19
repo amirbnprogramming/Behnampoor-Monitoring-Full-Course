@@ -471,9 +471,9 @@ Commercial support is available at
 
 ### تصاویر نهایی داشبورد های nginx و blackbox:
 
-   > <img width="1263" height="847" alt="image" src="https://github.com/user-attachments/assets/231c96ee-a5cd-4476-8e6a-ca3502663c97" />
+   - <img width="1263" height="847" alt="image" src="https://github.com/user-attachments/assets/231c96ee-a5cd-4476-8e6a-ca3502663c97" />
 
-   > <img width="1268" height="830" alt="image" src="https://github.com/user-attachments/assets/4bcf7f88-6159-466a-9990-72cb8939391a" />
+   - <img width="1268" height="830" alt="image" src="https://github.com/user-attachments/assets/4bcf7f88-6159-466a-9990-72cb8939391a" />
 
 ### نکات برای Grafana
 - **شخصی‌سازی داشبورد**: از متغیرها (Variables) در Grafana برای فیلتر کردن داده‌ها بر اساس instance یا job استفاده کنید.
