@@ -286,17 +286,17 @@ Commercial support is available at
 ### قدم ۱: دانلود و نصب Blackbox Exporter
  فایل باینری Blackbox Exporter را دانلود کنید:
    ```bash
-   wget https://github.com/prometheus/blackbox_exporter/releases/download/v0.24.0/blackbox_exporter-0.24.0.linux-amd64.tar.gz
+   wget https://github.com/prometheus/blackbox_exporter/releases/download/v0.24.0/blackbox_exporter-0.27.0.linux-amd64.tar.gz
    ```
 
  فایل را از حالت فشرده خارج کنید:
    ```bash
-   tar -xzf blackbox_exporter-0.24.0.linux-amd64.tar.gz
+   tar -xzf blackbox_exporter-0.27.0.linux-amd64.tar.gz
    ```
 
  فایل باینری را به دایرکتوری مناسب منتقل کنید:
    ```bash
-   sudo mv blackbox_exporter-0.24.0.linux-amd64/blackbox_exporter /usr/local/bin/
+   sudo mv blackbox_exporter-0.27.0.linux-amd64/blackbox_exporter /usr/bin/
    ```
 
 ### قدم ۲: ایجاد کاربر و دایرکتوری
@@ -313,7 +313,7 @@ Commercial support is available at
 
  فایل پیکربندی پیش‌فرض Blackbox Exporter را کپی کنید:
    ```bash
-   sudo mv blackbox_exporter-0.24.0.linux-amd64/config.yml /etc/blackbox_exporter/blackbox.yml
+   sudo mv blackbox_exporter-0.27.0.linux-amd64/config.yml /etc/blackbox_exporter/blackbox.yml
    ```
 
 ### قدم ۳: پیکربندی Blackbox Exporter
@@ -342,8 +342,8 @@ Commercial support is available at
    ```
 
    توضیحات:
-   - `http_2xx`: بررسی می‌کند که آیا پاسخ HTTP کد 200 را برمی‌گرداند.
-   - `ssl_check`: بررسی وضعیت گواهینامه SSL.
+   - `قسمت http_2xx`: بررسی می‌کند که آیا پاسخ HTTP کد 200 را برمی‌گرداند.
+   - `قسمت ssl_check`: بررسی وضعیت گواهینامه SSL.
 
  فایل را ذخیره کنید و دسترسی‌ها را تنظیم کنید:
    ```bash
@@ -365,7 +365,7 @@ Commercial support is available at
    [Service]
    User=blackbox_exporter
    Group=blackbox_exporter
-   ExecStart=/usr/local/bin/blackbox_exporter --config.file=/etc/blackbox_exporter/blackbox.yml
+   ExecStart=/usr/bin/blackbox_exporter --config.file=/etc/blackbox_exporter/blackbox.yml
    Restart=always
 
    [Install]
@@ -524,11 +524,11 @@ Commercial support is available at
 
 ## بخش هشتم: دایرکتوری‌ها و ساختار پیشنهادی
 - **Nginx Exporter**:
-  - باینری: `/usr/local/bin/nginx-prometheus-exporter`
+  - باینری: `/usr/bin/nginx-prometheus-exporter`
   - دایرکتوری پیکربندی: `/etc/nginx_exporter`
   - لاگ‌ها: `/var/log/nginx_exporter`
 - **Blackbox Exporter**:
-  - باینری: `/usr/local/bin/blackbox_exporter`
+  - باینری: `/usr/bin/blackbox_exporter`
   - دایرکتوری پیکربندی: `/etc/blackbox_exporter`
   - لاگ‌ها: `/var/log/blackbox_exporter`
 - **Prometheus**:
