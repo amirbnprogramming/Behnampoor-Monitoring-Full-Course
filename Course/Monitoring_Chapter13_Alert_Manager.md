@@ -131,25 +131,25 @@
 همچنین، دایرکتوری‌های مشخصی برای ذخیره فایل‌های باینری، پیکربندی و داده‌ها نیاز است.
 
 ### ایجاد کاربر
-1. یک کاربر سیستمی برای Alertmanager ایجاد کنید:
+ یک کاربر سیستمی برای Alertmanager ایجاد کنید:
    ```bash
    sudo useradd --no-create-home --shell /bin/false alertmanager
    ```
 
-2. بررسی کنید که کاربر ایجاد شده است:
+ بررسی کنید که کاربر ایجاد شده است:
    ```bash
    id alertmanager
    cat /etc/group
    ```
 
 ### ایجاد دایرکتوری‌ها
-1. دایرکتوری‌های مورد نیاز برای ذخیره فایل‌های پیکربندی و داده‌ها را بسازید:
+ دایرکتوری‌های مورد نیاز برای ذخیره فایل‌های پیکربندی و داده‌ها را بسازید:
    ```bash
    sudo mkdir -p /etc/alertmanager
    sudo mkdir -p /var/lib/alertmanager
    ```
 
-2. مالکیت دایرکتوری‌ها را به کاربر `alertmanager` اختصاص دهید:
+ مالکیت دایرکتوری‌ها را به کاربر `alertmanager` اختصاص دهید:
    ```bash
    sudo chown alertmanager:alertmanager /etc/alertmanager
    sudo chown alertmanager:alertmanager /var/lib/alertmanager
