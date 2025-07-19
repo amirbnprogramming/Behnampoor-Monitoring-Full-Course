@@ -109,52 +109,338 @@
 
 ## 5. عمیق شدن در Alertmanager
 
-### 5.1 نصب Alertmanager
-سرویس Alertmanager معمولاً از طریق Helm Chart به نام `kube-prometheus-stack` نصب می‌شود.
-این Helm Chart شامل پرومتئوس، Alertmanager، Grafana و سایر ابزارهای نظارتی است.
+این این مرحله صفر تا صد نصب و پیکربندی **Prometheus Alertmanager** را با تمرکز بر روش دانلود با استفاده از **wget** و همچنین معرفی روش‌های دیگر نصب (مانند استفاده از Docker) شرح میدهیم.
+هدف این است که شما بتوانید Alertmanager را به‌طور کامل نصب و پیکربندی کنید و هشدارهای Prometheus را مدیریت کنید.
 
-#### مثال نصب با Helm:
+---
+
+## پیش‌نیازها
+- **سیستم‌عامل**: لینوکس (این راهنما بر اساس اوبونتو/Debian یا CentOS نوشته شده است، اما قابل تعمیم به سایر توزیع‌ها است).
+- **دسترسی root یا sudo**: برای اجرای دستورات نصب و مدیریت فایل‌ها.
+- **پکیج Prometheus نصب‌شده**: فرض می‌شود که Prometheus از قبل روی سیستم نصب و پیکربندی شده است.
+- **ابزارهای مورد نیاز**:
+  - `پکیج wget` یا `curl` برای دانلود فایل‌ها.
+  - `پکیج tar` برای استخراج آرشیوها.
+  - `پکیج systemctl` برای مدیریت سرویس‌ها (در صورت استفاده از systemd).
+
+---
+
+## مرحله ۱: ایجاد کاربر و دایرکتوری‌های مورد نیاز
+
+در نصب Alertmanager بهتر است با یک کاربر غیرروت اجرا شود تا امنیت سیستم افزایش یابد.
+همچنین، دایرکتوری‌های مشخصی برای ذخیره فایل‌های باینری، پیکربندی و داده‌ها نیاز است.
+
+### ایجاد کاربر
+1. یک کاربر سیستمی برای Alertmanager ایجاد کنید:
+   ```bash
+   sudo useradd --no-create-home --shell /bin/false alertmanager
+   ```
+
+2. بررسی کنید که کاربر ایجاد شده است:
+   ```bash
+   id alertmanager
+   cat /etc/group
+   ```
+
+### ایجاد دایرکتوری‌ها
+1. دایرکتوری‌های مورد نیاز برای ذخیره فایل‌های پیکربندی و داده‌ها را بسازید:
+   ```bash
+   sudo mkdir -p /etc/alertmanager
+   sudo mkdir -p /var/lib/alertmanager
+   ```
+
+2. مالکیت دایرکتوری‌ها را به کاربر `alertmanager` اختصاص دهید:
+   ```bash
+   sudo chown alertmanager:alertmanager /etc/alertmanager
+   sudo chown alertmanager:alertmanager /var/lib/alertmanager
+   ```
+
+---
+
+## مرحله ۲: دانلود و نصب Alertmanager
+
+پکیج Alertmanager را می‌توان از طریق روش‌های مختلفی نصب کرد. در اینجا ابتدا روش دانلود با **wget** توضیح داده می‌شود و سپس روش‌های جایگزین معرفی می‌شوند.
+
+### روش ۱: دانلود و نصب با استفاده از wget
+1. **دانلود آخرین نسخه Alertmanager**:
+   - به صفحه انتشارات رسمی Prometheus در GitHub مراجعه کنید تا آخرین نسخه را بیابید: [https://github.com/prometheus/alertmanager/releases](https://github.com/prometheus/alertmanager/releases).
+   - فرض کنید آخرین نسخه 0.28.1 است (این نسخه را با نسخه فعلی جایگزین کنید).
+   - دستور زیر را برای دانلود اجرا کنید:
+     ```bash
+     sudo su
+     cd /tmp
+     wget https://github.com/prometheus/alertmanager/releases/download/v0.28.1/alertmanager-0.28.1.linux-amd64.tar.gz
+     ```
+
+2. **استخراج فایل دانلودشده**:
+   ```bash
+   tar -xvzf alertmanager-0.27.0.linux-amd64.tar.gz
+   ```
+
+3. **انتقال فایل‌های باینری**:
+   فایل‌های اجرایی `alertmanager` و `amtool` را به مسیر مناسب منتقل کنید:
+   ```bash
+   mv alertmanager-0.27.0.linux-amd64/alertmanager /usr/bin/
+   mv alertmanager-0.27.0.linux-amd64/amtool /usr/bin/
+   ```
+
+4. **اعطای دسترسی مناسب به فایل‌ها**:
+   ```bash
+   sudo chown alertmanager:alertmanager /usr/bin/alertmanager
+   sudo chown alertmanager:alertmanager /usr/bin/amtool
+   sudo chmod +x /usr/bin/alertmanager
+   sudo chmod +x /usr/bin/amtool
+   ```
+
+5. **بررسی نصب**:
+   برای اطمینان از نصب صحیح، نسخه Alertmanager را بررسی کنید:
+   ```bash
+   alertmanager --version
+   ```
+
+### روش ۲: نصب با استفاده از Docker
+اگر ترجیح می‌دهید از Docker استفاده کنید:
+1. تصویر رسمی Alertmanager را از Docker Hub بکشید:
+   ```bash
+   docker pull prom/alertmanager:latest
+   ```
+
+2. پکیج Alertmanager را با استفاده از Docker اجرا کنید:
+   ```bash
+   docker run --name alertmanager -p 9093:9093 \
+     -v /etc/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml \
+     prom/alertmanager:latest
+   ```
+
+   **توجه**: فایل پیکربندی `alertmanager.yml` باید از قبل در مسیر `/etc/alertmanager/` ایجاد شده باشد.
+
+### روش ۳: نصب با استفاده از بسته‌های مدیریت بسته
+برخی توزیع‌های لینوکس ممکن است Alertmanager را در مخازن خود داشته باشند. برای مثال، در اوبونتو:
 ```bash
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-helm repo update
-helm upgrade --install prom prometheus-community/kube-prometheus-stack \
-  --namespace monitoring --create-namespace \
-  --values prom-alertmanager-values.yaml
+sudo apt update
+sudo apt install prometheus-alertmanager
 ```
+**توجه**: بسته‌های مدیریت بسته ممکن است نسخه‌های قدیمی‌تر را ارائه دهند، بنابراین استفاده از روش wget یا Docker برای دریافت آخرین نسخه توصیه می‌شود.
 
-### 5.2 فایل تنظیمات Alertmanager
+---
+
+## مرحله ۳: پیکربندی Alertmanager
+
+پکیج Alertmanager از یک فایل پیکربندی به نام `alertmanager.yml` استفاده می‌کند.
+این فایل شامل تنظیمات مربوط به نحوه مدیریت و ارسال هشدارها (مانند ایمیل، Slack، PagerDuty و غیره) است.
+
+1. **ایجاد فایل پیکربندی**:
+   فایل پیکربندی را در مسیر `/etc/alertmanager/` ایجاد کنید:
+   ```bash
+   sudo nano /etc/alertmanager/alertmanager.yml
+   ```
+
+2. **نمونه پیکربندی پایه**:
+   محتوای زیر را در فایل `alertmanager.yml` قرار دهید:
+   ```yaml
+   global:
+     # تنظیمات عمومی، مانند سرور SMTP برای ارسال ایمیل
+     smtp_smarthost: 'smtp.example.com:587'
+     smtp_from: 'alertmanager@example.com'
+     smtp_auth_username: 'your_username'
+     smtp_auth_password: 'your_password'
+
+   route:
+     # مسیر پیش‌فرض برای هشدارها
+     receiver: 'team-email'
+     group_by: ['alertname', 'cluster', 'service']
+     group_wait: 30s
+     group_interval: 5m
+     repeat_interval: 4h
+
+   receivers:
+     - name: 'team-email'
+       email_configs:
+         - to: 'team@example.com'
+           send_resolved: true
+
+     - name: 'slack-notifications'
+       slack_configs:
+         - api_url: 'https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX'
+           channel: '#alerts'
+           send_resolved: true
+   ```
 فایل تنظیمات Alertmanager (معمولاً `alertmanager.yml`) شامل بخش‌های زیر است:
+
  **قسمت Global**: تنظیمات کلی مثل URL وب‌هوک Slack یا تنظیمات SMTP برای ایمیل.
  **قسمت Route**: تعریف مسیرهای هدایت هشدارها (مثلاً کدام هشدار به کدام مقصد ارسال شود).
  **قسمت Receivers**: تعریف مقصدهای اعلان (مثل Slack، PagerDuty).
  **قسمت Inhibit Rules**: قوانینی برای سرکوب هشدارهای کم‌اهمیت.
-
-#### مثال فایل تنظیمات Alertmanager:
-```yaml
-global:
-  slack_api_url: 'https://hooks.slack.com/services/xxx/yyy/zzz'
-
-route:
-  receiver: 'slack-notifications'
-  group_by: ['alertname', 'namespace']
-  group_wait: 30s
-  group_interval: 5m
-  repeat_interval: 4h
-
-receivers:
-- name: 'slack-notifications'
-  slack_configs:
-  - channel: '#alerts'
-    send_resolved: true
-    text: "<!channel> {{ .CommonAnnotations.summary }}: {{ .CommonAnnotations.description }}"
-```
-
-**توضیحات:**
+ 
  `قسمت group_by`: هشدارها را بر اساس برچسب‌هایی مثل `alertname` و `namespace` گروه‌بندی می‌کند.
  `قسمت group_wait`: مدت زمانی که منتظر می‌ماند تا هشدارهای مرتبط جمع شوند.
  `قسمت group_interval`: فاصله بین ارسال گروه‌های جدید هشدار.
  `قسمت repeat_interval`: فاصله زمانی برای تکرار هشدار.
  `قسمت slack_configs`: تنظیمات مربوط به ارسال اعلان به Slack.
+
+3. **اعمال مالکیت و دسترسی**:
+   ```bash
+   sudo chown alertmanager:alertmanager /etc/alertmanager/alertmanager.yml
+   sudo chmod 640 /etc/alertmanager/alertmanager.yml
+   ```
+
+4. **بررسی صحت فایل پیکربندی**:
+   از ابزار `amtool` برای بررسی صحت فایل پیکربندی استفاده کنید:
+   ```bash
+   amtool check-config /etc/alertmanager/alertmanager.yml
+   ```
+
+---
+
+## مرحله ۴: اتصال Alertmanager به Prometheus
+
+برای اینکه Prometheus هشدارها را به Alertmanager ارسال کند، باید فایل پیکربندی Prometheus (`prometheus.yml`) را ویرایش کنید.
+
+1. **ویرایش فایل prometheus.yml**:
+   فایل پیکربندی Prometheus را باز کنید (معمولاً در `/etc/prometheus/prometheus.yml`):
+   ```bash
+   sudo nano /etc/prometheus/prometheus.yml
+   ```
+
+2. **اضافه کردن تنظیمات Alertmanager**:
+   بخش `alerting` را به فایل اضافه کنید:
+   ```yaml
+   alerting:
+     alertmanagers:
+       - static_configs:
+           - targets:
+               - localhost:9093
+   rule_files:
+     - "alert.rules.yml"
+   ```
+
+3. **ایجاد فایل قوانین هشدار**:
+   یک فایل به نام `alert.rules.yml` در مسیر `/etc/prometheus/` ایجاد کنید:
+   ```bash
+   sudo nano /etc/prometheus/alert.rules.yml
+   ```
+
+   نمونه محتوای فایل:
+   ```yaml
+   groups:
+   - name: example
+     rules:
+     - alert: HighDiskUsage
+       expr: 100 * (node_filesystem_size_bytes - node_filesystem_free_bytes) / node_filesystem_size_bytes > 95
+       for: 5m
+       labels:
+         severity: critical
+       annotations:
+         summary: "High Disk Usage on {{ $labels.instance }}"
+         description: "{{ $labels.instance }} has disk usage above 95%."
+   ```
+
+4. **بررسی صحت فایل prometheus.yml**:
+   ```bash
+   promtool check-config /etc/prometheus/prometheus.yml
+   ```
+
+5. **ری‌استارت Prometheus**:
+   برای اعمال تغییرات، سرویس Prometheus را ری‌استارت کنید:
+   ```bash
+   sudo systemctl restart prometheus
+   ```
+
+---
+
+## مرحله ۵: ایجاد سرویس Systemd برای Alertmanager
+
+برای اجرای Alertmanager به‌صورت یک سرویس دائمی در سیستم، یک فایل سرویس Systemd ایجاد کنید.
+
+1. **ایجاد فایل سرویس**:
+   ```bash
+   sudo nano /etc/systemd/system/alertmanager.service
+   ```
+
+2. **محتوای فایل سرویس**:
+   محتوای زیر را در فایل قرار دهید:
+   ```ini
+   [Unit]
+   Description=Prometheus Alertmanager Service
+   After=network.target
+
+   [Service]
+   User=alertmanager
+   Group=alertmanager
+   Type=simple
+   ExecStart=/usr/bin/alertmanager \
+     --config.file=/etc/alertmanager/alertmanager.yml \
+     --storage.path=/var/lib/alertmanager
+
+   [Install]
+   WantedBy=multi-user.target
+   ```
+
+3. **اعمال تغییرات و راه‌اندازی سرویس**:
+   ```bash
+   sudo systemctl daemon-reload
+   sudo systemctl enable alertmanager
+   sudo systemctl start alertmanager
+   ```
+
+4. **بررسی وضعیت سرویس**:
+   ```bash
+   sudo systemctl status alertmanager
+   ```
+
+5. **دسترسی به رابط کاربری Alertmanager**:
+   مرورگر خود را باز کنید و به آدرس `http://<server-ip>:9093` بروید. باید رابط کاربری وب Alertmanager را مشاهده کنید.
+
+---
+
+## مرحله ۶: تست و عیب‌یابی
+
+1. **تست ارسال هشدار**:
+   - یک قانون هشدار در فایل `alert.rules.yml` تعریف کنید که به‌راحتی فعال شود (مثلاً بررسی استفاده از CPU).
+   - بررسی کنید که هشدار به گیرنده‌های تعریف‌شده (مانند ایمیل یا Slack) ارسال می‌شود.
+
+2. **بررسی لاگ‌ها**:
+   لاگ‌های Alertmanager را برای عیب‌یابی بررسی کنید:
+   ```bash
+   journalctl -u alertmanager.service
+   ```
+
+3. **تست با amtool**:
+   از ابزار `amtool` برای ارسال یک هشدار آزمایشی استفاده کنید:
+   ```bash
+   amtool alert add alertname=TestAlert severity=critical
+   ```
+
+---
+
+## روش‌های جایگزین دانلود و نصب
+
+### ۱. استفاده از curl به‌جای wget
+به‌جای `wget` می‌توانید از `curl` استفاده کنید:
+```bash
+curl -LO https://github.com/prometheus/alertmanager/releases/download/v0.27.0/alertmanager-0.27.0.linux-amd64.tar.gz
+```
+
+### ۲. استفاده از مخازن بسته
+در برخی توزیع‌ها، می‌توانید از مدیر بسته استفاده کنید، اما ممکن است نسخه قدیمی‌تر نصب شود:
+```bash
+sudo apt install prometheus-alertmanager
+```
+
+### ۳. استفاده از Helm در Kubernetes
+اگر از Kubernetes استفاده می‌کنید، می‌توانید Alertmanager را با Helm نصب کنید:
+```bash
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm install alertmanager prometheus-community/alertmanager
+```
+
+---
+
+## نکات نهایی نصب Alert Manager
+- **به‌روزرسانی Alertmanager**: برای به‌روزرسانی، نسخه جدید را دانلود کنید و فایل‌های باینری را جایگزین کنید. سپس سرویس را ری‌استارت کنید.
+- **امنیت**: برای افزایش امنیت، فایروال را تنظیم کنید تا فقط پورت 9093 برای دسترسی‌های مجاز باز باشد.
+- **یکپارچه‌سازی با Grafana**: می‌توانید Alertmanager را با Grafana ادغام کنید تا هشدارها را در داشبوردهای Grafana مشاهده کنید.
+
 
 ---
 
