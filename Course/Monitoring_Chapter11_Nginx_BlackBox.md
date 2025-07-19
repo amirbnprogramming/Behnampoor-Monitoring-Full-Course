@@ -414,6 +414,10 @@ Commercial support is available at
    ```bash
    sudo systemctl restart prometheus
    ```
+
+ بررسی کنید که معیارها جمع‌آوری می‌شوند:
+   - به رابط کاربری Prometheus بروید و در بخش `Status > Targets` بررسی کنید که job مربوط به Blackbox در حالت `UP` باشد.
+     
    <img width="1260" alt="image" src="https://github.com/user-attachments/assets/654ca598-3464-4436-865d-d380c09e2b3f" />
 
    <img width="1260" alt="image" src="https://github.com/user-attachments/assets/b5551f4b-5823-450d-8b9f-846edb69e024" />
@@ -422,8 +426,7 @@ Commercial support is available at
 
 
 
- بررسی کنید که معیارها جمع‌آوری می‌شوند:
-   - به رابط کاربری Prometheus بروید و در بخش `Status > Targets` بررسی کنید که job مربوط به Blackbox در حالت `UP` باشد.
+
 
 ### نکات کلیدی برای Blackbox Exporter
 - **ماژول‌های مختلف**: می‌توانید ماژول‌های مختلفی برای HTTP، TCP، DNS و غیره تعریف کنید.
@@ -453,7 +456,7 @@ Commercial support is available at
    nginx_requests_total
    ```
    این کوئری تعداد کل درخواست‌های Nginx را نمایش می‌دهد.
-4. برای داشبوردهای آماده، می‌توانید داشبورد رسمی Nginx Exporter را از [Grafana Labs](https://grafana.com/grafana/dashboards/9563) (ID: 9563) وارد کنید.
+4. برای داشبوردهای آماده، می‌توانید داشبورد رسمی Nginx Exporter را از [Grafana Labs](https://grafana.com/grafana/dashboards/14900-nginx) (ID: 14900) وارد کنید.
 
 ### قدم ۳: ایجاد داشبورد برای Blackbox Exporter
 1. یک پنل جدید اضافه کنید.
