@@ -53,7 +53,8 @@
 
 مدیریت هشدارها در پرومتئوس توسط **Alertmanager** انجام می‌شود. 
 این ابزار وظیفه دریافت هشدارها از پرومتئوس و مدیریت آن‌ها (مانند گروه‌بندی، سرکوب، ارسال به مقصدهای مختلف) را بر عهده دارد.
-![0_0Izrnl2M7stmWgJf](https://github.com/user-attachments/assets/10dc24af-c053-480f-9f93-cd32463eaa7b)
+<img width="100%" alt="Prometheus-and-Alertmanager-Architecture" src="https://github.com/user-attachments/assets/3a4cb6c4-c404-4711-9e82-55d0c14ae7db"/>
+
 
 ### 3.1 وظایف Alertmanager
  **گروه‌بندی (Grouping)**
