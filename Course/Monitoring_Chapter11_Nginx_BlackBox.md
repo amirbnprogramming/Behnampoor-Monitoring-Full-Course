@@ -415,6 +415,12 @@ Commercial support is available at
    sudo systemctl restart prometheus
    ```
 
+   <img width="1267" height="1044" alt="image" src="https://github.com/user-attachments/assets/b5551f4b-5823-450d-8b9f-846edb69e024" />
+
+   <img width="844" height="551" alt="image" src="https://github.com/user-attachments/assets/a9424f35-7406-44ea-b9cd-9be1f70f7fe6" />
+
+
+
  بررسی کنید که معیارها جمع‌آوری می‌شوند:
    - به رابط کاربری Prometheus بروید و در بخش `Status > Targets` بررسی کنید که job مربوط به Blackbox در حالت `UP` باشد.
 
