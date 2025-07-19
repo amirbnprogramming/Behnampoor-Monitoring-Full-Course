@@ -224,7 +224,8 @@ Commercial support is available at
    sudo curl 127.0.0.1:9113
    ```
  خروجی باید چیزی شبیه به زیر باشد :
-   <img width="1274" height="436" alt="image" src="https://github.com/user-attachments/assets/a4ea5c68-b0f0-4037-b30e-3296a4eb53f9" />
+ 
+   > <img width="1274" height="436" alt="image" src="https://github.com/user-attachments/assets/a4ea5c68-b0f0-4037-b30e-3296a4eb53f9" />
 
 
   
@@ -244,7 +245,7 @@ Commercial support is available at
          - targets: ['localhost:9113']  # پورت پیش‌فرض Nginx Exporter
    ```
 
-3. Prometheus را ری‌استارت کنید:
+ سرویس Prometheus را ری‌استارت کنید:
    ```bash
    sudo systemctl restart prometheus
    ```
@@ -254,7 +255,7 @@ Commercial support is available at
 - به رابط کاربری Prometheus (معمولاً `http://<prometheus-server>:9090`) بروید 
 - در بخش `Status > Targets` بررسی کنید که job مربوط به Nginx در حالت `UP` باشد.
 
-  <img width="1262" height="154" alt="image" src="https://github.com/user-attachments/assets/621131a3-f90c-4085-8bfc-da9dae5a213f" />
+  > <img width="1262" height="154" alt="image" src="https://github.com/user-attachments/assets/621131a3-f90c-4085-8bfc-da9dae5a213f" />
 
 
 ### نکات کلیدی برای Nginx Exporter
